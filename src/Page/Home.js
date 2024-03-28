@@ -28,7 +28,10 @@ export default function Home() {
       <NavbarHome />
       <SliderHome />
 
-      <div style={{ marginTop: "10px" }} className="row justify-content-start ">
+      <div
+        style={{ marginTop: "10px", backgroundColor: "#b3979714" }}
+        className="row justify-content-start "
+      >
         {render()}
       </div>
 

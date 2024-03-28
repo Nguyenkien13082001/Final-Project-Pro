@@ -8,7 +8,7 @@ export default function SliderHome() {
         <Carousel.Item interval={1000}>
           <img
             className="Slide-img"
-            src="https://dulichviet.com.vn/images/bandidau/danh-sach-nhung-buc-anh-viet-nam-lot-top-anh-dep-the-gioi.jpg"
+            src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="First slide"
           />
           <Carousel.Caption>
@@ -19,7 +19,7 @@ export default function SliderHome() {
         <Carousel.Item interval={500}>
           <img
             className="Slide-img"
-            src="https://kynguyenlamdep.com/wp-content/uploads/2020/01/nuong-lua.jpg"
+            src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="First slide"
           />
           <Carousel.Caption>
@@ -30,7 +30,7 @@ export default function SliderHome() {
         <Carousel.Item>
           <img
             className="Slide-img"
-            src="https://toanthaydinh.com/wp-content/uploads/2020/04/chum-tour-du-lich-dong-tay-bac-mixtourist.jpg"
+            src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="First slide"
           />
           <Carousel.Caption>

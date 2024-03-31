@@ -1,8 +1,7 @@
 import React from "react";
-import NavbarHome from "../components/home/NavbarHome";
 import SliderHome from "../components/home/SliderHome";
-import Footer from "../components/home/Footer";
 import Doc from "../components/home/Doc";
+import LayoutHome from "../layouts/LayoutHome";
 const list = [
   { id: 1, name: "Halo" },
   { id: 1, name: "Halo" },
@@ -24,18 +23,15 @@ export default function Home() {
     });
   };
   return (
-    <div>
-      <NavbarHome />
+    <LayoutHome>
       <SliderHome />
 
       <div
         style={{ marginTop: "10px", backgroundColor: "#b3979714" }}
-        className="row justify-content-start "
+        className="row justify-content-center mx-auto "
       >
         {render()}
       </div>
-
-      <Footer />
-    </div>
+    </LayoutHome>
   );
 }

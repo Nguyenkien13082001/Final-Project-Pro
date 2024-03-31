@@ -10,6 +10,7 @@ export default function Doc({ item }) {
         style={{ height: "300px" }}
         src="https://kenhgiaovien.com/sites/default/files/styles/700xauto/public/de_2-hk2-toan_10-cd-01.jpg"
       />
+      <hr />
       <Card.Body>
         <Card.Title>{item.name}</Card.Title>
         <Card.Text>

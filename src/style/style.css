@@ -17,13 +17,14 @@ html {
 }
 
 .footer-distributed {
-  background: #efe0e087;
+  background: #e0efef;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   width: 100%;
   text-align: left;
   font: bold 16px sans-serif;
   padding: 55px 50px;
+  position: absolute;
 }
 
 .footer-distributed .footer-left,
@@ -206,11 +207,10 @@ html {
   height: 100vh;
   background-color: white;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
-  transition: all 0.5s ease;
   position: fixed;
-  top: 0;
   left: 0;
-  z-index: 9999;
+  width: 210px;
+  margin-top: -30px;
 }
 .burger {
   display: flex;
@@ -245,4 +245,108 @@ html {
 .navbar__li-box:hover {
   border-left: 7px solid #58b5fc;
   cursor: pointer;
+}
+
+/* css menu */
+
+.Nav-Link {
+  text-decoration: none;
+  color: rgb(0 0 0);
+  line-height: 66px;
+  padding: 0 15px;
+}
+
+/* css nút chọn lớp */
+/* .ChooseClass {
+  display: flex;
+  text-decoration: none;
+  text-align: center;
+} */
+
+/* css chọn tổng câu hỏi */
+.TotalQuestion {
+  width: 80px;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+/* css file tạo đề*/
+.ClassQuestionChoose {
+  margin-bottom: 70px;
+  margin-left: 15px;
+  font-size: 15px;
+  height: 70vh;
+}
+
+/* css nút checkbox tự tạo đề */
+.CheckboxCss {
+  width: 30px;
+}
+/* css nút chọn chuyên đề */
+.CheckboxCss1 {
+  width: 30px;
+  margin-left: 20px;
+}
+
+/* css file Footer */
+/* .footer-distributed {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+} */
+
+/* css nút ấn tự tạo đề */
+.btn-center {
+  display: flex;
+  justify-content: center; /* Canh giữa theo chiều ngang */
+  align-items: flex-end; /* Đặt ở dưới cùng */
+  height: 62vh;
+}
+
+/* css Inforaccout */
+.user-profile {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.profile-info {
+  margin-bottom: 10px;
+}
+
+.profile-info label {
+  font-weight: bold;
+  display: inline-block;
+  width: 100px;
+  margin-left: 15px;
+}
+
+.profile-info span {
+  display: inline-block;
+  width: calc(100% - 120px); /* 100% width minus label width and margin */
+  margin-left: 10px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.edit-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
 }

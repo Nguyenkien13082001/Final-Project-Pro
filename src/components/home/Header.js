@@ -7,6 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "./../../img/logoE.png";
 import "./../../style/style.css";
+import { Link } from "react-router-dom";
 
 export default function Header(li) {
   const [search, setSearch] = useState();
@@ -22,26 +23,57 @@ export default function Header(li) {
     <div className="Nav ">
       <Navbar
         style={{
-          padding: 3,
-          boxShadow: "1px 3px 8px #333",
+          // padding: 3,
+          // boxShadow: "1px 3px 8px #333",
+          // backgroundColor: "#f8f9fa",
+          position: "fixed",
+          top: 0,
+          right: 0,
+          left: 0,
+          height: "66px",
+          backgroundColor: "#f8f9fa",
+          fontSize: "16px",
+          boxShadow: "1px 1px 5px #333",
+          zIndex: 1000,
         }}
-        expand="lg"
-        className="bg-body-tertiary ps-5 pe-2 "
+        // // expand="lg"
+        // className="bg-body-tertiary ps-5 pe-2 "
       >
         <Container style={{ backgroundColor: "#f8f9fa" }} fluid>
-          <img style={{ width: "80px", height: "60px" }} src={logo} alt="" />
+          <Link to="/">
+            {" "}
+            <img
+              style={{ width: "80px", height: "60px" }}
+              src={logo}
+              alt="logo EduSmart"
+            />
+          </Link>
+
           <Navbar.Collapse id="navbarScroll">
             <Nav
               className="me-auto my-2 my-lg-0"
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">Create Topic</Nav.Link>
-              <Nav.Link href="#action2">Mock Exam</Nav.Link>
-              <Nav.Link href="#action2">Class 10</Nav.Link>
-              <Nav.Link href="#action2">Class 11</Nav.Link>
-              <Nav.Link href="#action2">Class 12</Nav.Link>
+              <Link to="/" className="Nav-Link">
+                Home
+              </Link>
+              <Link to="/creattopic" className="Nav-Link">
+                Create Topic
+              </Link>
+              <Link to="/profile" className="Nav-Link">
+                Mock Exam
+              </Link>
+              <Link to="#action2" className="Nav-Link">
+                Class 10
+              </Link>
+              <Link to="#action2" className="Nav-Link">
+                Class 11
+              </Link>
+              <Link to="#action2" className="Nav-Link">
+                {" "}
+                Class 12
+              </Link>
               {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">
@@ -53,6 +85,11 @@ export default function Header(li) {
                 </NavDropdown.Item>
               </NavDropdown> */}
             </Nav>
+            {/* <nav>
+              <Button variant="outline-success">
+                <Link to="/login">Log in/Sign up</Link>
+              </Button>
+            </nav> */}
 
             <Form className="d-flex">
               <Form.Control
@@ -70,11 +107,23 @@ export default function Header(li) {
             </Form>
 
             <Button
-              href="#"
-              style={{ marginLeft: "15px" }}
-              variant="outline-success"
+              style={{
+                marginLeft: "15px",
+                width: "130px",
+                padding: "5px 0",
+              }}
+              variant="outline-primary"
             >
-              Log in/Sign up
+              <Link
+                to="/login"
+                style={{
+                  textDecoration: "none",
+                  color: "Black",
+                  padding: "5px 10px",
+                }}
+              >
+                Log in/Sign up
+              </Link>
             </Button>
           </Navbar.Collapse>
         </Container>

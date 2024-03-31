@@ -25,7 +25,6 @@ export default function Home() {
   return (
     <LayoutHome>
       <SliderHome />
-
       <div
         style={{ marginTop: "10px", backgroundColor: "#b3979714" }}
         className="row justify-content-center mx-auto "

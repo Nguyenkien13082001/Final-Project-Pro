@@ -9,7 +9,7 @@ export default function LayoutHome({ children }) {
     <div>
       <Header />
 
-      <Navbars
+      {/* <Navbars
         li={[
           ["Dashboard", "img/dashboard.svg"],
           ["Restautant’s", "img/restaurant.svg"],
@@ -18,10 +18,12 @@ export default function LayoutHome({ children }) {
           ["Manage Coupon’s", "img/manage coupon.svg"],
         ]}
       />
-      <div className="ps-5">{children}</div>
-      <div className="ps-5">
+      <div className="ps-5">{children}</div> */}
+      {/* <div className="ps-5">
         <Footer />
-      </div>
+      </div> */}
+      <div>{children}</div>
+      <Footer />
     </div>
   );
 }

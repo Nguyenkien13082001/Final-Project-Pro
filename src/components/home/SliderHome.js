@@ -5,7 +5,7 @@ import Slider1 from "./../../img/slider1.png";
 export default function SliderHome() {
   return (
     <div>
-      <Carousel>
+      <Carousel style={{ marginTop: "66px", display: "flex" }}>
         <Carousel.Item interval={1000}>
           <img
             className="Slide-img"

@@ -88,63 +88,67 @@ export default function ClassQuestion() {
 
   return (
     <div className="ClassQuestionChoose">
-      <h1 style={{ textAlign: "center" }}>Exam Builder</h1>
-      <div>
+      <form onSubmit={generateExam}>
+        <h1 style={{ textAlign: "center" }}>Exam Builder</h1>
         <div>
-          <label>Select Class:</label>
-          <select value={selectedClass} onChange={handleClassChange}>
-            <option value="">-- Select Class --</option>
-            <option value="Class 10">Class 10</option>
-            <option value="Class 11">Class 11</option>
-            {/* Add more class options as needed */}
-          </select>
+          <div>
+            <label>Select Class:</label>
+            <select value={selectedClass} onChange={handleClassChange}>
+              <option value="">-- Select Class --</option>
+              <option value="Class 10">Class 10</option>
+              <option value="Class 11">Class 11</option>
+              {/* Add more class options as needed */}
+            </select>
+          </div>
+          <div>
+            <label>Total Questions:</label>
+            <input
+              min={1}
+              max={100}
+              className="TotalQuestion"
+              type="number"
+              value={questionCount}
+              onChange={handleQuestionCountChange}
+            />
+          </div>
         </div>
-        <div>
-          <label>Total Questions:</label>
-          <input
-            className="TotalQuestion"
-            type="number"
-            value={questionCount}
-            onChange={handleQuestionCountChange}
-          />
+        {selectedClass && (
+          <div>
+            {classChapters[selectedClass].map((chapter) => (
+              <div key={chapter.id}>
+                <input
+                  className="CheckboxCss"
+                  type="checkbox"
+                  checked={selectedChapters.includes(chapter.name)}
+                  onChange={() => handleChapterChange(chapter.name)}
+                />
+                {chapter.name}
+                {selectedChapters.includes(chapter.name) &&
+                  chapter.topics.map((topic) => (
+                    <div key={topic}>
+                      <input
+                        className="CheckboxCss1"
+                        type="checkbox"
+                        checked={
+                          chapterTopics[chapter.name] &&
+                          chapterTopics[chapter.name].includes(topic)
+                        }
+                        onChange={() => handleTopicChange(chapter.name, topic)}
+                      />
+                      {topic}
+                    </div>
+                  ))}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="btn-center">
+          {" "}
+          <button style={{ width: "150px" }} onClick={generateExam}>
+            Generate Exam
+          </button>
         </div>
-      </div>
-      {selectedClass && (
-        <div>
-          {classChapters[selectedClass].map((chapter) => (
-            <div key={chapter.id}>
-              <input
-                className="CheckboxCss"
-                type="checkbox"
-                checked={selectedChapters.includes(chapter.name)}
-                onChange={() => handleChapterChange(chapter.name)}
-              />
-              {chapter.name}
-              {selectedChapters.includes(chapter.name) &&
-                chapter.topics.map((topic) => (
-                  <div key={topic}>
-                    <input
-                      className="CheckboxCss1"
-                      type="checkbox"
-                      checked={
-                        chapterTopics[chapter.name] &&
-                        chapterTopics[chapter.name].includes(topic)
-                      }
-                      onChange={() => handleTopicChange(chapter.name, topic)}
-                    />
-                    {topic}
-                  </div>
-                ))}
-            </div>
-          ))}
-        </div>
-      )}
-      <div className="btn-center">
-        {" "}
-        <button style={{ width: "150px" }} onClick={generateExam}>
-          Generate Exam
-        </button>
-      </div>
+      </form>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../img/logoE.png";
+import axios from "axios";
 
 function FormLogin() {
   const [activeTab, setActiveTab] = useState("login");
@@ -10,6 +11,7 @@ function FormLogin() {
     confirmPassword: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -22,11 +24,27 @@ function FormLogin() {
     }));
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Form Data:", formData);
+    try {
+      const response = await axios.post(
+        "https://edusmart.pythonanywhere.com/  ",
+        formData
+      );
+      console.log("Login response:", response.data); // Log response data
+      if (response.data.success) {
+        // Xử lý logic khi đăng nhập thành công
+        console.log("Login successful!");
+      } else {
+        // Xử lý logic khi đăng nhập không thành công
+        console.log("Login failed:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error while logging in:", error);
+      // Xử lý lỗi tại đây
+      console.log("An error occurred while logging in");
+    }
   };
-
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     console.log("Register Form Data:", formData);
@@ -60,6 +78,7 @@ function FormLogin() {
           <input
             type="email"
             name="email"
+            id="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
@@ -68,6 +87,7 @@ function FormLogin() {
           <input
             type="password"
             name="password"
+            id="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}

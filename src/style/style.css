@@ -273,10 +273,10 @@ html {
 
 /* css file tạo đề*/
 .ClassQuestionChoose {
-  margin-bottom: 70px;
-  margin-left: 15px;
+  /* margin-bottom: 70px;
+  margin-left: 15px; */
   font-size: 15px;
-  height: 70vh;
+  text-align: center;
 }
 
 /* css nút checkbox tự tạo đề */
@@ -300,9 +300,7 @@ html {
 
 /* css nút ấn tự tạo đề */
 .btn-center {
-  display: flex;
-  justify-content: center; /* Canh giữa theo chiều ngang */
-  align-items: flex-end; /* Đặt ở dưới cùng */
+  display: block;
   height: 62vh;
 }
 

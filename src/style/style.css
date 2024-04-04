@@ -82,8 +82,8 @@ html {
 }
 
 .footer-distributed .footer-center i {
-  background-color: #33383b;
-  color: black;
+  background-color: #a8d1eb;
+  color: rgb(255, 255, 255);
   font-size: 25px;
   width: 38px;
   height: 38px;
@@ -178,7 +178,7 @@ html {
 /* Footer */
 .Slide-img {
   width: 100%;
-  height: 85vh;
+  height: 50vh;
 }
 
 /* If you don't want the footer to be responsive, remove these media queries */
@@ -256,6 +256,11 @@ html {
   padding: 0 15px;
 }
 
+.Nav-Link:hover {
+  color: #58b5fc;
+  font-size: 18px;
+}
+
 /* css nút chọn lớp */
 /* .ChooseClass {
   display: flex;
@@ -276,9 +281,16 @@ html {
   /* margin-bottom: 70px;
   margin-left: 15px; */
   font-size: 15px;
-  text-align: center;
 }
-
+.ClassQuestionChoose .form-create-exam {
+  margin-left: 30px;
+}
+.ClassQuestionChoose .form-create-exam .btn-exam {
+  margin-top: 20px;
+  outline: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
 /* css nút checkbox tự tạo đề */
 .CheckboxCss {
   width: 30px;
@@ -347,4 +359,36 @@ html {
 
 .edit-button:hover {
   background-color: #0056b3;
+}
+.avatar {
+  vertical-align: middle;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.drop-avatar button {
+  width: fit-content;
+  background: rgba(179, 151, 151, 0.08);
+  margin-left: 10px;
+  outline: none;
+  border: none;
+}
+.dropdown #dropdown-basic {
+  width: 100% !important;
+  margin-left: 10px;
+}
+.dropdown .dropdown-menu {
+  left: -100% !important;
+}
+
+.form_SeachHome {
+  display: flex;
+  justify-content: end;
+  margin-top: 10px;
+  margin-right: 90px;
+}
+
+.btn_SeachHome {
+  width: 90px;
 }

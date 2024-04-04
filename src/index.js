@@ -9,6 +9,11 @@ import Login from "./Page/Login";
 import Home from "./Page/Home";
 import CreatTopic from "./Page/CreatTopic";
 import Profile from "./Page/Profile";
+import Admin from "./Page/Admin/Admin";
+import Acount from "./Page/Admin/Acount";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import EditProfile from "./components/profile/EditProfile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,7 +25,11 @@ root.render(
         <Route path="login" element={<Login />} />
         <Route path="creattopic" element={<CreatTopic />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="editprofile" element={<EditProfile />} />
+        <Route path="admin" element={<Admin />} />
+        <Route path="admin/account" element={<Acount />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   </React.StrictMode>
 );

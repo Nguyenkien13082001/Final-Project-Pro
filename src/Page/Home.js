@@ -2,6 +2,7 @@ import React from "react";
 import SliderHome from "../components/home/SliderHome";
 import Doc from "../components/home/Doc";
 import LayoutHome from "../layouts/LayoutHome";
+import Search from "../components/home/Search";
 const list = [
   { id: 1, name: "Halo" },
   { id: 1, name: "Halo" },
@@ -25,8 +26,9 @@ export default function Home() {
   return (
     <LayoutHome>
       <SliderHome />
+      <Search />
       <div
-        style={{ marginTop: "10px", backgroundColor: "#b3979714" }}
+        style={{ marginTop: "10px" }}
         className="row justify-content-center mx-auto "
       >
         {render()}

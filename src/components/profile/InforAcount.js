@@ -1,10 +1,24 @@
-import React from "react";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import apiClient from "../../api/apiClient";
+import EditProfile from "./EditProfile";
 
 function InforAcount(props) {
   // Thông tin tài khoản người dùng (có thể đặt từ props hoặc state)
-  const { name, email, address, phone } = props.user;
+  // const { Username, Email, DoB, Status } = props.user;
+  const [Listinfo, setListinfo] = useState({});
+  useEffect(() => {
+    getInfo();
+  }, []);
+  const getInfo = async () => {
+    try {
+      const response = await apiClient.get("/get_info");
+      setListinfo(response.user_info);
+    } catch (error) {}
+  };
 
+  const handleUpdateUser = () => {
+    getInfo();
+  };
   return (
     <div style={{ marginTop: "100px" }}>
       <div className="user-profile">
@@ -16,22 +30,25 @@ function InforAcount(props) {
         <h1>User Profile</h1>
         <div className="profile-info">
           <label>Name:</label>
-          <span>{name}</span>
+          <span>{Listinfo.Name}</span>
         </div>
         <div className="profile-info">
           <label>Email:</label>
-          <span>{email}</span>
+          <span>{Listinfo.Email}</span>
         </div>
         <div className="profile-info">
-          <label>Address:</label>
-          <span>{address}</span>
+          <label>Dob:</label>
+          <span>{Listinfo.DoB}</span>
         </div>
         <div className="profile-info">
-          <label>Phone:</label>
-          <span>{phone}</span>
+          <label>Status:</label>
+          <span>{Listinfo.Status}</span>
         </div>
-        <div className="button-container">
+        {/* <div className="button-container">
           <button className="edit-button">Edit Profile</button>
+        </div> */}
+        <div>
+          <EditProfile user={Listinfo} onUpdateUser={handleUpdateUser} />
         </div>
       </div>
     </div>

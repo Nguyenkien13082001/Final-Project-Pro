@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "./../../img/logoE.png";
+import Avatar from "../../img/img_avatar.png";
 import "./../../style/style.css";
 import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 
 export default function Header(li) {
-  const [search, setSearch] = useState();
-  console.log(search);
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setSearch(value);
-  };
-  const handleClick = () => {
-    alert(search);
-  };
+  // const [search, setSearch] = useState();
+
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setSearch(value);
+  // };
+  // const handleClick = () => {
+  //   alert(search);
+  // };
+
   return (
     <div className="Nav ">
       <Navbar
@@ -61,7 +64,7 @@ export default function Header(li) {
               <Link to="/creattopic" className="Nav-Link">
                 Create Topic
               </Link>
-              <Link to="/profile" className="Nav-Link">
+              <Link to="#action2" className="Nav-Link">
                 Mock Exam
               </Link>
               <Link to="#action2" className="Nav-Link">
@@ -91,7 +94,7 @@ export default function Header(li) {
               </Button>
             </nav> */}
 
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <Form.Control
                 style={{ backgroundColor: "#00ffcd29" }}
                 name="search"
@@ -104,27 +107,54 @@ export default function Header(li) {
               <Button variant="outline-success" onClick={handleClick}>
                 Search
               </Button>
-            </Form>
+            </Form> */}
+            {localStorage.getItem("token") ? (
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  <img src={Avatar} className="avatar" alt="" />
+                </Dropdown.Toggle>
 
-            <Button
-              style={{
-                marginLeft: "15px",
-                width: "130px",
-                padding: "5px 0",
-              }}
-              variant="outline-primary"
-            >
-              <Link
-                to="/login"
+                <Dropdown.Menu>
+                  <Dropdown.Item>
+                    <Link
+                      to="/profile"
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      Profile
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("role");
+                      window.location.href = "/";
+                    }}
+                  >
+                    Sign out
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Button
                 style={{
-                  textDecoration: "none",
-                  color: "Black",
-                  padding: "5px 10px",
+                  marginLeft: "15px",
+                  width: "130px",
+                  padding: "5px 0",
                 }}
+                variant="outline-primary"
               >
-                Log in/Sign up
-              </Link>
-            </Button>
+                <Link
+                  to="/login"
+                  style={{
+                    textDecoration: "none",
+                    color: "Black",
+                    padding: "5px 10px",
+                  }}
+                >
+                  Log in/Sign up
+                </Link>
+              </Button>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>

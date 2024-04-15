@@ -20,7 +20,9 @@ html {
   background: #e0efef;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
+
   width: 100%;
+
   text-align: left;
   font: bold 16px sans-serif;
   padding: 55px 50px;
@@ -210,7 +212,7 @@ html {
   position: fixed;
   left: 0;
   width: 210px;
-  margin-top: -30px;
+  margin-top: -50px;
 }
 .burger {
   display: flex;
@@ -261,119 +263,6 @@ html {
   font-size: 18px;
 }
 
-/* css nút chọn lớp */
-/* .ChooseClass {
-  display: flex;
-  text-decoration: none;
-  text-align: center;
-} */
-
-/* css chọn tổng câu hỏi */
-.TotalQuestion {
-  width: 80px;
-  height: 30px;
-  margin-top: 10px;
-  margin-left: 5px;
-}
-
-/* css file tạo đề*/
-.ClassQuestionChoose {
-  /* margin-bottom: 70px;
-  margin-left: 15px; */
-  font-size: 15px;
-}
-.ClassQuestionChoose .form-create-exam {
-  margin-left: 30px;
-}
-.ClassQuestionChoose .form-create-exam .btn-exam {
-  margin-top: 20px;
-  outline: none;
-  border-radius: 10px;
-  font-weight: 600;
-}
-/* css nút checkbox tự tạo đề */
-.CheckboxCss {
-  width: 30px;
-}
-/* css nút chọn chuyên đề */
-.CheckboxCss1 {
-  width: 30px;
-  margin-left: 20px;
-}
-
-/* css file Footer */
-/* .footer-distributed {
-  position: fixed;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 999;
-} */
-
-/* css nút ấn tự tạo đề */
-.btn-center {
-  display: block;
-  height: 62vh;
-}
-
-/* css Inforaccout */
-.user-profile {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  text-align: center;
-}
-
-.profile-info {
-  margin-bottom: 10px;
-}
-
-.profile-info label {
-  font-weight: bold;
-  display: inline-block;
-  width: 100px;
-  margin-left: 15px;
-}
-
-.profile-info span {
-  display: inline-block;
-  width: calc(100% - 120px); /* 100% width minus label width and margin */
-  margin-left: 10px;
-}
-
-.button-container {
-  margin-top: 20px;
-}
-
-.edit-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.edit-button:hover {
-  background-color: #0056b3;
-}
-.avatar {
-  vertical-align: middle;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-.drop-avatar button {
-  width: fit-content;
-  background: rgba(179, 151, 151, 0.08);
-  margin-left: 10px;
-  outline: none;
-  border: none;
-}
 .dropdown #dropdown-basic {
   width: 100% !important;
   margin-left: 10px;

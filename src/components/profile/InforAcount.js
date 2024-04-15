@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
 import EditProfile from "./EditProfile";
+import "./InforAcount.css";
 
 function InforAcount(props) {
   // Thông tin tài khoản người dùng (có thể đặt từ props hoặc state)
@@ -20,7 +21,7 @@ function InforAcount(props) {
     getInfo();
   };
   return (
-    <div style={{ marginTop: "100px" }}>
+    <div style={{ marginTop: "120px" }}>
       <div className="user-profile">
         <img
           style={{ height: "100px", width: "100px" }}
@@ -44,9 +45,6 @@ function InforAcount(props) {
           <label>Status:</label>
           <span>{Listinfo.Status}</span>
         </div>
-        {/* <div className="button-container">
-          <button className="edit-button">Edit Profile</button>
-        </div> */}
         <div>
           <EditProfile user={Listinfo} onUpdateUser={handleUpdateUser} />
         </div>

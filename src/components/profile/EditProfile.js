@@ -131,7 +131,11 @@ export default function EditProfile({ user, onUpdateUser }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSave}>
+          <Button
+            style={{ width: "auto" }}
+            variant="primary"
+            onClick={handleSave}
+          >
             Save Changes
           </Button>
         </Modal.Footer>

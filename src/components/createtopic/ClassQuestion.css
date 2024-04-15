@@ -1,0 +1,119 @@
+/* Base reset for styling */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Overall container styles */
+.class-question-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+.exam-builder-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-builder-title {
+  font-size: 24px;
+  text-align: center;
+  color: #205493;
+  margin-bottom: 30px;
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/* .form-label {
+  font-size: 18px;
+  color: #205493;
+  margin-bottom: 8px;
+} */
+
+.form-select,
+.form-input {
+  padding: 10px;
+  border: 1px solid #ccddee;
+  border-radius: 4px;
+  font-size: 16px;
+  width: auto;
+}
+
+/* Checkbox and topics styling */
+.chapter-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.chapter-item {
+  margin-bottom: 10px;
+}
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+}
+.topic-selection .checkbox-container {
+  padding-left: 80px; /* Đẩy checkbox ra phía trước */
+}
+
+.checkbox-input {
+  position: absolute; /* Nếu bạn muốn custom checkbox, giữ lại position: absolute */
+
+  cursor: pointer;
+
+  height: 20px; /* Hoặc kích thước thực của checkbox nếu bạn muốn hiển thị nó */
+  width: 20px; /* Hoặc kích thước thực của checkbox nếu bạn muốn hiển thị nó */
+  margin-left: -35px; /* Đẩy checkbox ra phía trước */
+}
+
+/* Buttons styling */
+.button-container {
+  text-align: center;
+}
+
+.btn-generate-exam {
+  padding: 12px 25px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-generate-exam:hover {
+  background-color: #45a049;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .class-question-container {
+    width: 95%;
+    margin: 10px auto;
+  }
+
+  .exam-builder-form {
+    padding: 10px;
+  }
+}

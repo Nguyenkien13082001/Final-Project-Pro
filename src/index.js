@@ -14,6 +14,8 @@ import Acount from "./Page/Admin/Acount";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProfile from "./components/profile/EditProfile";
+import TopicInterface from "./Page/TopicInterface";
+import ExamInterfaceOne from "./components/ExamInterfaceOne/ExamInterfaceOne";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,6 +28,10 @@ root.render(
         <Route path="creattopic" element={<CreatTopic />} />
         <Route path="profile" element={<Profile />} />
         <Route path="editprofile" element={<EditProfile />} />
+        <Route
+          path="/creattopic/TopicInterface/:exam_id"
+          element={<ExamInterfaceOne />}
+        />
         <Route path="admin" element={<Admin />} />
         <Route path="admin/account" element={<Acount />} />
       </Routes>

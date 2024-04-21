@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import TopicInterface from "../../Page/TopicInterface";
 import "./ClassQuestion.css";
 // import Modal from "react-modal";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function ClassQuestion() {
   const [selectedChapters, setSelectedChapters] = useState([]);
@@ -18,105 +20,219 @@ export default function ClassQuestion() {
   const navigate = useNavigate();
   const [examQuestions, setExamQuestions] = useState([]); // State để lưu nội dung đề thi
   const [showExamView, setShowExamView] = useState(false);
-  // const [selectAll, setSelectAll] = useState(false);
+  const [indeterminateChapters, setIndeterminateChapters] = useState(new Set());
+  const [expanded, setExpanded] = useState({});
+  const [selectAllChapters, setSelectAllChapters] = useState(false);
+
+  const toggleExpanded = (chapterId) => {
+    setExpanded((prev) => ({
+      ...prev,
+      [chapterId]: !prev[chapterId],
+    }));
+  };
 
   useEffect(() => {
     getClass();
   }, []);
   const getClass = async () => {
     try {
-      const response = await apiClient.get("/class");
-      setListClass(response);
+      const response = await apiClient.get("api/get_class_admin");
+      setListClass(response.classes);
     } catch (error) {}
   };
   const getChapter = async (classId) => {
     try {
-      const response = await apiClient.get(`/chapter?class_id=${classId}`);
-      setListChapter(response);
-    } catch (error) {}
+      const chapterResponse = await apiClient.get(
+        `api/get_chapter_admin?class_id=${classId}`
+      );
+      setListChapter(chapterResponse.chapters);
+      const newExpanded = chapterResponse.chapters.reduce((acc, chapter) => {
+        acc[chapter.id] = false; // Mặc định đóng
+        return acc;
+      }, {});
+      setExpanded(newExpanded);
+
+      // Load topic cho mỗi chapter
+      chapterResponse.chapters.forEach((chapter) => {
+        getTopic(chapter.id);
+      });
+    } catch (error) {
+      console.error("Error fetching chapters:", error);
+      toast.error("Failed to load chapters");
+    }
   };
+
   const getTopic = async (chapter_id) => {
     try {
-      const response = await apiClient.get(`/topic?chapter_id=${chapter_id}`);
-      let newList = listTopic;
-      const index = newList.findIndex(
-        (item) => Object.keys(item)[0] === chapter_id
+      const response = await apiClient.get(
+        `/api/get_topic_admin?chapter_id=${chapter_id}`
       );
-      if (index === -1) {
-        setListTopic([...newList, { [chapter_id]: response }]);
-      }
-    } catch (error) {}
-  };
-
-  // const handleSelectAll = () => {
-  //   const newSelectAll = !selectAll;
-  //   setSelectAll(newSelectAll);
-
-  //   if (newSelectAll) {
-  //     // Chọn tất cả các chapter và topic
-  //     const allChapters = listChapter.map((chapter) => chapter.id);
-  //     const allTopics = listTopic.reduce((acc, topicList) => {
-  //       const topics = Object.values(topicList).flat();
-  //       return [...acc, ...topics.map((topic) => topic.id)];
-  //     }, []);
-  //     setSelectedChapters(allChapters);
-  //     setSelectedTopic(allTopics);
-  //   } else {
-  //     // Bỏ chọn tất cả
-  //     setSelectedChapters([]);
-  //     setSelectedTopic([]);
-  //   }
-  // };
-
-  const handleChapterChange = (e) => {
-    if (e.target.checked) {
-      setSelectedChapters([...selectedChapters, e.target.value]);
-      getTopic(e.target.value);
-      console.log("chapter>>>", selectedChapters);
-    } else {
-      let newList = listTopic;
-      let newListChapter = selectedChapters;
-      const index = newList.findIndex(
-        (item) => Object.keys(item)[0] === e.target.value
-      );
-      const indexChapter = newListChapter.findIndex(
-        (item) => item === e.target.value
-      );
-      if (indexChapter !== -1) {
-        setSelectedChapters(
-          newListChapter.filter((item) => item !== e.target.value)
-        );
-      }
-      if (index !== -1) {
-        setListTopic(
-          newList.filter((item) => Object.keys(item)[0] !== e.target.value)
-        );
-      }
+      const topics = response.topics; // Đảm bảo đây là định dạng đúng của response
+      // Chỉ thêm các topic mới vào listTopic, không cần cập nhật lại nếu chapter đã có
+      setListTopic((prev) => {
+        const existingChapter = prev.find((topic) => topic[chapter_id]);
+        if (!existingChapter) {
+          return [...prev, { [chapter_id]: topics }];
+        }
+        return prev;
+      });
+      // Cập nhật selectedTopic với các topic mới không trùng lặp
+      // Chỉ thêm các topic mới vào listTopic, không cập nhật trạng thái đã chọn
+      setListTopic((prev) => {
+        const existingChapter = prev.find((topic) => topic[chapter_id]);
+        if (!existingChapter) {
+          return [...prev, { [chapter_id]: topics }];
+        }
+        return prev;
+      });
+    } catch (error) {
+      console.error("Failed to fetch topics:", error);
+      toast.error("Failed to load topics");
     }
   };
-  const handleTopicChange = (e) => {
-    if (e.target.checked) {
-      setSelectedTopic([...selectedTopic, e.target.value]);
-      console.log("topic>>>", selectedTopic);
-    } else {
-      let newListTopic = selectedTopic;
 
-      const indexChapter = newListTopic.findIndex(
-        (item) => item === e.target.value
-      );
-      if (indexChapter !== -1) {
-        setSelectedTopic(
-          newListTopic.filter((item) => item !== e.target.value)
+  const handleSelectAllChapters = () => {
+    setSelectAllChapters((prevSelectAll) => {
+      if (!prevSelectAll) {
+        // Chọn tất cả các chapter
+        const allChaptersIds = listChapter.map((chapter) => chapter.id);
+        setSelectedChapters(allChaptersIds);
+        // Chọn tất cả các topic thuộc mọi chapter
+        const allTopicIds = listTopic.flatMap((topicList) =>
+          Object.values(topicList).flatMap((chapterTopics) =>
+            chapterTopics.map((topic) => topic.id.toString())
+          )
         );
-        console.log(selectedTopic);
+        setSelectedTopic(allTopicIds);
+        // Đặt trạng thái expanded cho tất cả các chapter là true
+        const newExpandedState = allChaptersIds.reduce(
+          (acc, id) => ({ ...acc, [id]: false }),
+          {}
+        );
+        setExpanded(newExpandedState);
+        // Đặt trạng thái indeterminate cho tất cả các chapter là false
+        const newIndeterminate = new Set();
+        setIndeterminateChapters(newIndeterminate);
+      } else {
+        // Bỏ chọn tất cả các chapter và topic
+        setSelectedChapters([]);
+        setSelectedTopic([]);
+        // Đặt trạng thái đóng mở các chapter là false
+        setExpanded({});
+        // Đặt trạng thái indeterminate cho tất cả các chapter là false
+        const newIndeterminate = new Set();
+        setIndeterminateChapters(newIndeterminate);
       }
+      return !prevSelectAll; // Đảo ngược trạng thái của selectAllChapters
+    });
+  };
+
+  const handleChapterChange = async (chapterId, event) => {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      // Chọn tất cả các topic trong chapter này
+      await getTopic(chapterId); // Đảm bảo rằng các topic được lấy và cập nhật trước khi đánh dấu chọn
+      const chapterTopics =
+        listTopic.find((t) => t[chapterId])?.[chapterId] || [];
+      setSelectedTopic((prev) => {
+        const newSelectedTopics = new Set(prev);
+        chapterTopics.forEach((topic) =>
+          newSelectedTopics.add(topic.id.toString())
+        );
+        return Array.from(newSelectedTopics);
+      });
+      setSelectedChapters((prev) => [...prev, chapterId]);
+      setIndeterminateChapters((prev) => {
+        const newIndeterminate = new Set(prev);
+        newIndeterminate.delete(chapterId);
+        return newIndeterminate;
+      });
+    } else {
+      // Bỏ chọn tất cả các topic trong chapter này
+      const chapterTopics =
+        listTopic.find((t) => t[chapterId])?.[chapterId] || [];
+      setSelectedTopic((prev) =>
+        prev.filter(
+          (id) => !chapterTopics.some((topic) => topic.id.toString() === id)
+        )
+      );
+      setSelectedChapters((prev) => prev.filter((id) => id !== chapterId));
+      setIndeterminateChapters((prev) => {
+        const newIndeterminate = new Set(prev);
+        newIndeterminate.delete(chapterId);
+        return newIndeterminate;
+      });
     }
+  };
+
+  const handleTopicChange = (topicId, chapterId, event) => {
+    const isChecked = event.target.checked;
+
+    setSelectedTopic((prevSelectedTopics) => {
+      const updatedSelectedTopics = isChecked
+        ? [...prevSelectedTopics, topicId.toString()]
+        : prevSelectedTopics.filter((id) => id !== topicId.toString());
+
+      const allTopicsInChapter =
+        listTopic.find((topic) => topic[chapterId])?.[chapterId] || [];
+
+      // Kiểm tra nếu tất cả các topic trong chapter đã được chọn
+      const areAllTopicsSelected = allTopicsInChapter.every((topic) =>
+        updatedSelectedTopics.includes(topic.id.toString())
+      );
+
+      // Kiểm tra nếu ít nhất một topic trong chapter đã được chọn
+      const isAnyTopicSelected = allTopicsInChapter.some((topic) =>
+        updatedSelectedTopics.includes(topic.id.toString())
+      );
+
+      // Cập nhật trạng thái của chương
+      setSelectedChapters((prev) => {
+        const newChapters = new Set(prev);
+        if (areAllTopicsSelected) {
+          newChapters.add(chapterId);
+        } else if (isAnyTopicSelected) {
+          newChapters.add(chapterId); // Giữ chapter này trong danh sách đã chọn nếu có ít nhất một topic được chọn
+        } else {
+          newChapters.delete(chapterId); // Xóa chapter này nếu không có topic nào được chọn
+        }
+        return Array.from(newChapters);
+      });
+
+      // Cập nhật indeterminate status
+      setIndeterminateChapters((prev) => {
+        const newIndeterminate = new Set(prev);
+        if (isAnyTopicSelected && !areAllTopicsSelected) {
+          newIndeterminate.add(chapterId);
+        } else {
+          newIndeterminate.delete(chapterId);
+        }
+        return newIndeterminate;
+      });
+
+      return updatedSelectedTopics;
+    });
   };
 
   const handleClassChange = async (event) => {
-    if (listClass.length !== 0) {
-      getChapter(event.target.value);
-      setChooseClass(event.target.value);
+    const classId = event.target.value;
+    if (!classId) {
+      setListChapter([]);
+      setListTopic([]);
+      setSelectedChapters([]);
+      setSelectedTopic([]);
+      setExpanded({}); // Quan trọng: Đặt lại trạng thái đóng mở của các chương
+      setIndeterminateChapters(new Set());
+      setSelectAllChapters(false);
+      setQuestionCount(1);
+
+      return;
+    }
+    setChooseClass(classId);
+
+    if (classId) {
+      getChapter(classId);
       setSelectedChapters([]);
       setSelectedTopic([]);
     }
@@ -127,18 +243,41 @@ export default function ClassQuestion() {
 
   const handleCreateExam = async () => {
     try {
-      const response = await apiClient.post(`/generate-questions`, {
+      const response = await apiClient.post(`/api/gen_question`, {
         class_ids: [chooseClass],
         topic_ids: selectedTopic,
         chapter_ids: selectedChapters,
         num_questions: questionCount,
       });
-      if (response && response.question) {
+      if (response && response.questions_count >= questionCount) {
+        // Nếu số câu hỏi trả về đủ số lượng yêu cầu
         toast.success("Create exam successful!");
-        setExamQuestions(response.question); // Cập nhật nội dung đề
-        setShowExamView(true);
-        console.log("Exam questions:", response.question);
+        // setExamQuestions(response.questions); // Cập nhật nội dung đề
+        // setShowExamView(true);
+
+        console.log("Exam questions:", response);
+        // console.log get link will direct to TopicInterface
+        console.log(`TopicInterface/${response.exam_id}`);
+
+        navigate(`/creattopic/TopicInterface/${response.exam_id}`, {
+          replace: true,
+        });
+      } else if (response && response.questions_count < questionCount) {
+        // Nếu số câu hỏi trả về ít hơn số lượng yêu cầu
+        if (
+          window.confirm(
+            `Chỉ có ${response.questions_count} câu hỏi có sẵn. Bạn có muốn tiếp tục không?`
+          )
+        ) {
+          toast.success("Create exam successful!");
+          // setExamQuestions(response.questions); // Cập nhật nội dung đề với số câu hỏi có sẵn
+          // setShowExamView(true);
+          navigate(`/creattopic/TopicInterface/${response.exam_id}`, {
+            replace: true,
+          });
+        }
       } else {
+        // Trường hợp không nhận được câu hỏi nào hoặc có lỗi
         console.error("Invalid response format:", response);
         toast.error("Error creating exam: Invalid response format");
       }
@@ -147,6 +286,20 @@ export default function ClassQuestion() {
       toast.error(error.response?.data?.message || "Error creating exam");
     }
   };
+
+  useEffect(() => {
+    // Khi danh sách chương thay đổi, kiểm tra nếu không còn chương nào và reset `selectAllChapters`
+    if (listChapter.length === 0) {
+      setSelectAllChapters(false);
+    } else {
+      // Kiểm tra nếu tất cả các chương đều được chọn
+      const allChaptersSelected = listChapter.every((chapter) =>
+        selectedChapters.includes(chapter.id)
+      );
+      setSelectAllChapters(allChaptersSelected);
+    }
+  }, [listChapter, selectedChapters]);
+
   return (
     <div className="class-question-container">
       <form className="exam-builder-form">
@@ -183,46 +336,66 @@ export default function ClassQuestion() {
               onChange={handleQuestionCountChange}
             />
           </div>
-          {/* <button type="button" onClick={handleSelectAll}>
-            {selectAll ? "Bỏ chọn tất cả" : "Chọn tất cả"}
-          </button> */}
+
+          <div className="button-container">
+            {listChapter.length > 0 &&
+              chooseClass && ( // Kiểm tra cả hai điều kiện
+                <button
+                  type="button"
+                  className="select-deselect-all-btn"
+                  onClick={handleSelectAllChapters}
+                >
+                  {selectAllChapters
+                    ? "Deselect All Chapters"
+                    : "Select All Chapters"}
+                </button>
+              )}
+            {/* Các nút và thành phần khác */}
+          </div>
         </div>
-        <div className="chapter-selection">
+        <div>
           {listChapter.map((chapter) => (
             <div key={chapter.id} className="chapter-item">
+              <button
+                type="button"
+                className={`expand-toggle ${
+                  expanded[chapter.id] ? "expanded" : ""
+                }`}
+                onClick={() => toggleExpanded(chapter.id)}
+              >
+                {/* Nút sẽ tự động hiển thị "+" hoặc "-" dựa trên class */}
+              </button>
               <label className="checkbox-container">
-                <input
-                  className="checkbox-input"
-                  type="checkbox"
+                <Checkbox
+                  checked={selectedChapters.includes(chapter.id)}
+                  indeterminate={indeterminateChapters.has(chapter.id)}
+                  onChange={(e) => handleChapterChange(chapter.id, e)}
                   value={chapter.id}
-                  onChange={(e) => handleChapterChange(e, chapter.id)}
-                  // checked={selectedChapters.includes(chapter.id)}
                 />
-
-                <span className="checkbox-label"> {chapter.name}</span>
+                {chapter.name}
               </label>
-
-              <div className="topic-selection">
-                {listTopic.map(
-                  (topic) =>
-                    topic[chapter.id] &&
-                    topic[chapter.id].map((item) => (
+              {expanded[chapter.id] && ( // Chỉ hiển thị nếu expanded[chapter.id] là true
+                <div className="topic-selection">
+                  {listTopic.map((topicObj) =>
+                    topicObj[chapter.id]?.map((item) => (
                       <label key={item.id} className="checkbox-container">
-                        <input
-                          className="checkbox-input"
-                          type="checkbox"
+                        <Checkbox
+                          checked={selectedTopic.includes(item.id.toString())}
+                          onChange={(e) =>
+                            handleTopicChange(item.id, chapter.id, e)
+                          }
                           value={item.id}
-                          onChange={handleTopicChange}
-                          // checked={selectedTopic.includes(item.id)}
                         />
                         {item.name}
                       </label>
                     ))
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
+
         <div className="button-container">
           <button
             type="button"

@@ -13,6 +13,14 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 80vh;
+  overflow-y: auto;
+
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
 }
 
 /* Form styling */
@@ -66,13 +74,17 @@
 .checkbox-container {
   display: block;
   position: relative;
-  padding-left: 35px;
+  /* padding-left: 35px; */
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 18px;
+  margin-left: 17px;
+  margin-top: -29px;
 }
-.topic-selection .checkbox-container {
-  padding-left: 80px; /* Đẩy checkbox ra phía trước */
+
+.topic-selection {
+  margin-left: 30px;
+  margin-top: 20px;
 }
 
 .checkbox-input {
@@ -104,6 +116,55 @@
 
 .btn-generate-exam:hover {
   background-color: #45a049;
+}
+
+/* css + -  */
+.expand-toggle {
+  margin-right: 8px; /* Space between toggle and checkbox */
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px; /* Adjust size as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; /* Match the width of your checkboxes */
+  height: 20px; /* Match the height of your checkboxes */
+}
+
+.expand-toggle::before {
+  content: "+";
+  color: #000000; /* màu sắc tuỳ chỉnh */
+  padding-right: 5px;
+}
+
+.expand-toggle.expanded::before {
+  content: "-";
+}
+
+/* Button styles for select all / deselect all */
+.select-deselect-all-btn {
+  padding: 10px 20px;
+
+  color: white; /* Màu chữ của nút */
+  border: none; /* Không có viền */
+  border-radius: 4px; /* Bo góc */
+  cursor: pointer; /* Dạng con trỏ khi rê chuột vào */
+  font-size: 15px; /* Kích thước chữ */
+  width: auto; /* Chiều rộng nút */
+  transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+.select-deselect-all-btn:hover {
+  background-color: #45a049; /* Màu nền khi hover */
+}
+
+/* Tùy chỉnh cho responsive */
+@media (max-width: 768px) {
+  .select-deselect-all-btn {
+    width: 100%; /* Chiều rộng nút cho màn hình nhỏ */
+    padding: 10px 0; /* Padding cho màn hình nhỏ */
+  }
 }
 
 /* Responsive adjustments */

@@ -12,7 +12,7 @@ function InforAcount(props) {
   }, []);
   const getInfo = async () => {
     try {
-      const response = await apiClient.get("/get_info");
+      const response = await apiClient.get("/api/get_user");
       setListinfo(response.user_info);
     } catch (error) {}
   };
@@ -28,21 +28,21 @@ function InforAcount(props) {
           src="https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png"
           alt=""
         />
-        <h1>User Profile</h1>
+        <h1 style={{ color: "#4772eb9c" }}>Personal Information</h1>
         <div className="profile-info">
-          <label>Name:</label>
+          <label>Name</label>
           <span>{Listinfo.Name}</span>
         </div>
         <div className="profile-info">
-          <label>Email:</label>
+          <label>Email</label>
           <span>{Listinfo.Email}</span>
         </div>
         <div className="profile-info">
-          <label>Dob:</label>
+          <label>Dob</label>
           <span>{Listinfo.DoB}</span>
         </div>
         <div className="profile-info">
-          <label>Status:</label>
+          <label>Status</label>
           <span>{Listinfo.Status}</span>
         </div>
         <div>

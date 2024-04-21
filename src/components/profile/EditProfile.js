@@ -44,7 +44,7 @@ export default function EditProfile({ user, onUpdateUser }) {
         // Kiểm tra mật khẩu cũ
 
         // Gọi API để cập nhật thông tin người dùng
-        await apiClient.post("/edit_user", formData);
+        await apiClient.put("/api/update_info", formData);
         console.log("thành công ", formData);
         onUpdateUser(); // Gọi callback để thông báo cho component cha
         toast.success("Update Success");

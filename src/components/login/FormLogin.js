@@ -40,9 +40,10 @@ function FormLogin() {
     e.preventDefault();
 
     try {
-      const response = await apiClient.post("/login  ", formData);
+      const response = await apiClient.post("/api/login  ", formData);
       console.log(response);
-      if (response.access_token !== "") {
+      const role_allow = ["USER", "VIP"];
+      if (response.access_token !== "" && role_allow.includes(response.role)) {
         localStorage.setItem("token", response.access_token);
         localStorage.setItem("role", response.role);
         setIsLoggedIn(true);
@@ -65,7 +66,7 @@ function FormLogin() {
       toast.error("Date of birth cannot be in the future");
     } else {
       try {
-        const response = await apiClient.post("/register  ", formData);
+        const response = await apiClient.post("/api/register  ", formData);
 
         if (response) {
           toast.success("Create account success!");

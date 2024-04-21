@@ -1,69 +1,70 @@
 .user-profile {
   max-width: 500px;
-  height: 350px;
+  height: auto; /* Adjust height to be auto for content flexibility */
   margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  padding: 40px 20px; /* Increase padding for more whitespace */
+  border: none; /* Remove border for a cleaner look */
+  border-radius: 10px; /* Slightly larger border radius for a softer look */
+  background: linear-gradient(
+    145deg,
+    #e2f2f7,
+    #e8dfed
+  ); /* Subtle gradient background */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Enhanced box-shadow */
   text-align: center;
+  font-family: "Arial", sans-serif; /* Web-friendly font */
 }
 
 .profile-info {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding: 0 30px;
-  font-size: 20px;
+  margin-top: 30px; /* Increased top margin */
+  margin-bottom: 30px; /* Increased bottom margin */
 }
 
 .user-profile img {
   width: 120px;
   height: 120px;
-  border-radius: 50%; /* Làm cho ảnh đại diện tròn hoàn toàn */
-  margin-top: -60px;
-  border: 3px solid rgb(193, 216, 247); /* Tạo viền trắng cho ảnh, làm nổi bật lên khỏi background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ cho ảnh */
+  border-radius: 50%;
+  margin-top: -90px;
+  border: 5px solid white; /* Increased border size */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Darker box-shadow */
+  transition: transform 0.2s ease-in-out; /* Transition for hover effect */
+}
+
+.user-profile img:hover {
+  transform: scale(1.05); /* Slight scale on hover */
 }
 
 .profile-info label {
-  font-weight: bold;
+  font-weight: 600; /* Slightly heavier font-weight */
   color: #333;
-  display: inline-block;
-  width: 80px; /* Set a fixed width for all labels */
+  display: block; /* Changed to block to have each on its own line */
+  margin-bottom: 10px; /* Spacing after each label */
 }
 
 .profile-info span {
-  display: inline-block;
-  width: calc(
-    100% - 90px
-  ); /* Adjust the width to account for the label width and some padding */
-  text-align: left;
-  margin-left: 10px; /* This is to ensure some spacing between the label and the content */
+  display: block; /* Each content on its own line */
+  text-align: center; /* Center align the content */
+  color: #555; /* Slightly darker font color for better readability */
+  margin-bottom: 20px; /* Spacing after each content */
 }
 
-.button-container {
-  margin-top: 20px;
+/* Adding responsive design */
+@media (max-width: 768px) {
+  .user-profile {
+    padding: 30px 15px;
+  }
+
+  .user-profile img {
+    width: 100px;
+    height: 100px;
+  }
 }
 
-.edit-button {
-  background-color: #007bff; /* Màu nền nút */
-  color: white; /* Màu chữ */
-  padding: 8px 16px; /* Kích thước nút */
-  border-radius: 20px; /* Bo tròn nút */
-  font-size: 0.9rem; /* Kích thước font */
-  margin: 20px 0; /* Khoảng cách dưới cùng của nút */
-  width: 80%; /* Chiều rộng tối đa của nút */
-  margin-left: 10%; /* Đẩy nút vào giữa */
-}
-
-.edit-button:hover {
-  background-color: #0056b3;
-}
 .avatar {
   vertical-align: middle;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 .drop-avatar button {

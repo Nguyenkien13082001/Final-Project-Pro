@@ -2,22 +2,33 @@ import React, { useState, useEffect } from "react";
 import "./ExamInterfaceOne.css";
 import apiClient from "../../api/apiClient";
 import { useParams } from "react-router-dom";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
+import { Link, useNavigate } from "react-router-dom";
 
 const ExamInterfaceOne = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [timer, setTimer] = useState(300); // Thời gian thi là 5 phút
-  const [isPaused, setIsPaused] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
+  // const [timer, setTimer] = useState(300); // Thời gian thi là 5 phút
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  // const [isPaused, setIsPaused] = useState(false);
+  const [isRunning, setIsRunning] = useState(true);
+  const [showExplaination, setShowExplaination] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const { exam_id } = useParams();
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [isselected, setIsSelected] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const [color, setColor] = useState("");
+  const navigate = useNavigate();
   const jumpToQuestion = (index) => {
     setCurrentQuestionIndex(index);
-    setShowExplanation(false);
+    setShowExplaination(false);
   };
+  const [score, setScore] = useState(0);
 
-  const [questions, setQuestions] = useState([]);
-
-  const { exam_id } = useParams();
-  console.log("exam_id", exam_id);
+  const config = {
+    loader: { load: ["input/asciimath"] }, //mathjax config
+  };
 
   const getQuestions = async (exam_id) => {
     console.log("getQuestions is called");
@@ -25,263 +36,234 @@ const ExamInterfaceOne = () => {
       const response = await apiClient.get(`api/get_exam?exam_id=${exam_id}`);
       // assign response to questions
       setQuestions(response);
+      setCorrectAnswers(Array(response.length).fill(null));
+      setIsSelected(Array(response.length).fill(false));
+      setAnswers(Array(response.length).fill(null));
       console.log("abs<>", response);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     console.log("useEffect is called");
     getQuestions(exam_id);
-  }, [exam_id]); // Log để kiểm tra giá trị
+    // getAnswers(exam_id);
+  }, [exam_id]);
 
-  useEffect(() => {
-    console.log("Timer effect");
-    if (!isPaused) {
-      const timerId = setInterval(() => {
-        setTimer((t) => t - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
+  const checkAnswer = async (question_id, index) => {
+    console.log(isselected[index]);
+
+    try {
+      const response = await apiClient.get(
+        `api/check_answer?question_id=${question_id}`
+      );
+      console.log("absáneer<>", response.correct);
+      // assign response to questions
+      const newCorrectAnswers = [...correctAnswers];
+      newCorrectAnswers[index] = response.correct;
+      setCorrectAnswers(newCorrectAnswers);
+      const newIsSelected = [...isselected];
+      newIsSelected[index] = true;
+      setIsSelected(newIsSelected);
+      setColor(color === "" ? "green" : "red");
+    } catch (error) {
+      console.log(error);
     }
-  }, [isPaused]);
+  };
+
+  // useEffect(() => {
+  //   console.log("Timer effect");
+  //   if (!isPaused) {
+  //     const timerId = setInterval(() => {
+  //       setTimer((t) => t - 1);
+  //     }, 1000);
+  //     return () => clearInterval(timerId);
+  //   }
+  // }, [isPaused]);
+  useEffect(() => {
+    let interval;
+
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTimeElapsed((prevTime) => prevTime + 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
 
   const handleNextQuestion = () => {
-    setShowExplanation(false);
+    setShowExplaination(false);
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
 
   const handlePrevQuestion = () => {
-    setShowExplanation(false);
+    setShowExplaination(false);
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
   const togglePause = () => {
-    setIsPaused(!isPaused);
+    // setIsPaused(!isPaused);
+    setIsRunning(!isRunning);
   };
 
   const toggleExplanation = () => {
-    setShowExplanation(!showExplanation);
+    setShowExplaination(!showExplaination);
   };
 
-  const handleSubmitExam = () => {
-    // Xử lý nộp bài tại đây
-    alert("Bài thi đã được nộp!");
+  const handleSubmitExam = async () => {
+    try {
+      const response = await apiClient.post("/api/submit_exam", {
+        exam_id: exam_id,
+        time_elapsed: timeElapsed,
+        exam_result: {
+          question_id: questions.map((question) => question.question_id),
+          user_choice: answers,
+        },
+      });
+      console.log("Exam submitted successfully:", response.data);
+      // Sau khi submit thành công, bạn có thể chuyển hướng người dùng đến trang kết quả
+      navigate(`/PracticeResults/${exam_id}`, {
+        replace: true,
+      });
+    } catch (error) {
+      console.error("Error submitting exam:", error);
+    }
+  };
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
   };
 
   return (
-    <div className="exam-interface-container">
-      <div className="exam-interface">
-        <div className="timer">
-          Thời gian còn lại: {Math.floor(timer / 60)}:{timer % 60}
-        </div>
-        <div className="question-progress">
-          Câu hỏi {currentQuestionIndex + 1} / {questions.length}
-        </div>
-        <div className="question">
-          {questions.length > 0 ? (
-            <>
-              <h3>{questions[currentQuestionIndex].question}</h3>
-              <ul>
-                {Object.values(questions[currentQuestionIndex].answers[0]).map(
-                  (answer, index) => (
-                    <li key={index}>{answer}</li>
-                  )
-                )}
-              </ul>
-              {showExplanation && (
-                <p>{questions[currentQuestionIndex].explanation}</p>
+    <MathJaxContext config={config}>
+      <div className="exam-interface-container">
+        <div key={currentQuestionIndex} className="exam-interface">
+          <div className="timer">
+            {/* Thời gian còn lại: {Math.floor(timer / 60)}:{timer % 60} */}
+            <h3>Time: {formatTime(timeElapsed)}</h3>
+          </div>
+          <MathJax dynamic>
+            <div className="question-progress">
+              Question {currentQuestionIndex + 1} / {questions.length}
+            </div>
+            <div className="question">
+              {questions.length > 0 && questions[currentQuestionIndex] ? (
+                <>
+                  <h3>{questions[currentQuestionIndex].question}</h3>
+                  <ul>
+                    {Object.keys(
+                      questions[currentQuestionIndex].answers[0]
+                    ).map((key, index) => {
+                      const answer =
+                        questions[currentQuestionIndex].answers[0][key];
+                      return (
+                        <React.Fragment key={key}>
+                          <li
+                            style={{
+                              backgroundColor: "#f3f3f3",
+                              border:
+                                answers[currentQuestionIndex] === answer
+                                  ? correctAnswers[currentQuestionIndex] ===
+                                    answer
+                                    ? "2px solid green"
+                                    : "2px solid red"
+                                  : correctAnswers[currentQuestionIndex] ===
+                                    answer
+                                  ? "2px solid green"
+                                  : "none",
+                            }}
+                            onClick={() => {
+                              if (!isselected[currentQuestionIndex]) {
+                                checkAnswer(
+                                  questions[currentQuestionIndex].question_id,
+                                  currentQuestionIndex
+                                );
+                                setAnswers((prev) => {
+                                  const newAnswers = [...prev];
+                                  newAnswers[currentQuestionIndex] = answer;
+                                  return newAnswers;
+                                });
+                              }
+                            }}
+                          >
+                            <span className="option-letter">
+                              {String.fromCharCode(65 + index)}.{" "}
+                            </span>
+                            {answer}
+                          </li>
+                        </React.Fragment>
+                      );
+                    })}
+                  </ul>
+                  <button style={{ width: "auto" }} onClick={toggleExplanation}>
+                    {showExplaination ? "Show Explanation" : "Hide explanation"}
+                  </button>
+                  {showExplaination && (
+                    <p>{questions[currentQuestionIndex].explaination}</p>
+                  )}
+                </>
+              ) : (
+                <p>No Question</p>
               )}
-              <button onClick={toggleExplanation}>
-                {showExplanation ? "Ẩn Giải Thích" : "Hiện Giải Thích"}
-              </button>
-            </>
-          ) : (
-            <p>Không có câu hỏi nào</p>
-          )}
-        </div>
+            </div>
+          </MathJax>
 
-        <div className="navigation">
-          <button
-            onClick={handlePrevQuestion}
-            disabled={currentQuestionIndex === 0}
-          >
-            Câu Trước
-          </button>
-          <button
-            onClick={handleNextQuestion}
-            disabled={currentQuestionIndex === questions.length - 1}
-          >
-            Câu Tiếp Theo
-          </button>
-          <button onClick={togglePause}>
-            {isPaused ? "Tiếp Tục" : "Tạm Dừng"}
-          </button>
-          <button onClick={handleSubmitExam} className="submit-exam">
-            Nộp Bài
-          </button>
-        </div>
-      </div>
-      <div>
-        <div>
-          <h3>Danh Sách Câu Hỏi</h3>
-        </div>
-        <div className="question-list">
-          {/* Danh sách câu hỏi */}
-          {Array.from({ length: questions.length }, (_, i) => (
-            <button
-              key={i}
-              className={`question-list-item ${
-                currentQuestionIndex === i ? "active" : ""
-              }`}
-              onClick={() => jumpToQuestion(i)}
-            >
-              {i + 1}
+          <div className="navigation">
+            <button onClick={handleSubmitExam} className="submit-exam">
+              Exit
             </button>
-          ))}
+            <button
+              onClick={handlePrevQuestion}
+              disabled={currentQuestionIndex === 0}
+            >
+              Previous Question
+            </button>
+            <button
+              onClick={handleNextQuestion}
+              disabled={currentQuestionIndex === questions.length - 1}
+            >
+              Next Question
+            </button>
+            <button onClick={togglePause}>
+              {isRunning ? "Pause" : "Continue"}
+            </button>
+            <button onClick={handleSubmitExam} className="submit-exam">
+              Submit
+            </button>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h3>List Of Questions</h3>
+          </div>
+          <div className="question-list">
+            {/* Danh sách câu hỏi */}
+            {Array.from({ length: questions.length }, (_, i) => (
+              <button
+                key={i}
+                className={`question-list-item ${
+                  currentQuestionIndex === i ? "active" : ""
+                }`}
+                onClick={() => jumpToQuestion(i)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </MathJaxContext>
   );
 };
 
 export default ExamInterfaceOne;
-
-// import React, { useState, useEffect } from "react";
-// import "./ExamInterfaceOne.css";
-// function ExamInterfaceOne() {
-//   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-//   const [timer, setTimer] = useState(300); // Thời gian thi là 5 phút
-//   const [isPaused, setIsPaused] = useState(false);
-//   const [showExplanation, setShowExplanation] = useState(false);
-//   const [selectedAnswer, setSelectedAnswer] = useState(null);
-//   const jumpToQuestion = (index) => {
-//     setCurrentQuestionIndex(index);
-//     setShowExplanation(false);
-//   };
-
-//   const questions = [
-//     {
-//       question: "Câu hỏi 1: Đây là câu hỏi 1?",
-//       choices: ["A", "B", "C", "D"],
-//       answer: "A",
-//       explanation: "Giải thích cho câu 1",
-//     },
-//     {
-//       question: "Câu hỏi 2",
-//       choices: ["A", "B", "C", "D"],
-//       answer: "B",
-//       explanation: "Giải thích cho câu 2",
-//     },
-
-//     {
-//       question: "Câu hỏi 3: Đây là câu hỏi 3?",
-//       choices: ["A", "B", "C", "D"],
-//       answer: "B",
-//       explanation: "Giải thích cho câu 2",
-//     },
-//     // Thêm các câu hỏi khác tương tự
-//   ];
-
-//   useEffect(() => {
-//     if (!isPaused) {
-//       const timerId = setInterval(() => {
-//         setTimer((t) => t - 1);
-//       }, 1000);
-//       return () => clearInterval(timerId);
-//     }
-//   }, [isPaused]);
-
-//   const handleNextQuestion = () => {
-//     setShowExplanation(false);
-//     if (currentQuestionIndex < questions.length - 1) {
-//       setCurrentQuestionIndex(currentQuestionIndex + 1);
-//     }
-//   };
-
-//   const handlePrevQuestion = () => {
-//     setShowExplanation(false);
-//     if (currentQuestionIndex > 0) {
-//       setCurrentQuestionIndex(currentQuestionIndex - 1);
-//     }
-//   };
-
-//   const togglePause = () => {
-//     setIsPaused(!isPaused);
-//   };
-
-//   const toggleExplanation = () => {
-//     setShowExplanation(!showExplanation);
-//   };
-
-//   const handleSubmitExam = () => {
-//     // Xử lý nộp bài tại đây
-//     alert("Bài thi đã được nộp!");
-//   };
-
-//   return (
-//     <div className="exam-interface-container">
-//       <div className="exam-interface">
-//         <div className="timer">
-//           Thời gian còn lại: {Math.floor(timer / 60)}:{timer % 60}
-//         </div>
-//         <div className="question-progress">
-//           Câu hỏi {currentQuestionIndex + 1} / {questions.length}
-//         </div>
-//         <div className="question">
-//           <h3>{questions[currentQuestionIndex].question}</h3>
-//           <ul>
-//             {questions[currentQuestionIndex].choices.map((choice, index) => (
-//               <li key={index}>{choice}</li>
-//             ))}
-//           </ul>
-//           {showExplanation && (
-//             <p>{questions[currentQuestionIndex].explanation}</p>
-//           )}
-//           <button onClick={toggleExplanation}>
-//             {showExplanation ? "Ẩn Giải Thích" : "Hiện Giải Thích"}
-//           </button>
-//         </div>
-
-//         <div className="navigation">
-//           <button
-//             onClick={handlePrevQuestion}
-//             disabled={currentQuestionIndex === 0}
-//           >
-//             Câu Trước
-//           </button>
-//           <button
-//             onClick={handleNextQuestion}
-//             disabled={currentQuestionIndex === questions.length - 1}
-//           >
-//             Câu Tiếp Theo
-//           </button>
-//           <button onClick={togglePause}>
-//             {isPaused ? "Tiếp Tục" : "Tạm Dừng"}
-//           </button>
-//           <button onClick={handleSubmitExam} className="submit-exam">
-//             Nộp Bài
-//           </button>
-//         </div>
-//       </div>
-//       <div className="question-list">
-//         {Array.from({ length: 42 }, (_, i) => (
-//           <button
-//             key={i}
-//             className={`question-list-item ${
-//               currentQuestionIndex === i ? "active" : ""
-//             }`}
-//             onClick={() => setCurrentQuestionIndex(i)}
-//           >
-//             {i + 1}
-//           </button>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ExamInterfaceOne;

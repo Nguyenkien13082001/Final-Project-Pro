@@ -1,0 +1,63 @@
+/* LearningProcess.css */
+
+.learning-process-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 90px;
+}
+
+h1,
+h2 {
+  color: #333;
+  text-align: center;
+}
+
+.exam-session {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-session h3 {
+  color: #4a90e2;
+  margin-bottom: 10px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.status p {
+  margin-left: 10px;
+}
+
+.status-icon {
+  font-size: 20px;
+}
+
+p {
+  line-height: 1.5; /* Tăng line-height cho dễ đọc */
+  margin-bottom: 5px; /* Tạo khoảng cách giữa các dòng */
+}
+
+.status-icon.done {
+  color: #28a745;
+}
+
+.status-icon.in-progress {
+  color: #ffc107;
+}
+
+.cssp p {
+  font-weight: 600;
+}

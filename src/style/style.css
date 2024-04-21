@@ -205,14 +205,15 @@ html {
 }
 
 @import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
 .navbar-menu {
   height: 100vh;
   background-color: white;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
   position: fixed;
   left: 0;
+  top: 50px;
   width: 210px;
-  margin-top: -50px;
 }
 .burger {
   display: flex;

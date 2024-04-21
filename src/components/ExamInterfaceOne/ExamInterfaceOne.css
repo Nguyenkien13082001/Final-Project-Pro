@@ -9,13 +9,13 @@
 
 /* Styles cho form làm bài */
 .exam-interface {
-  width: 60%; /* Điều chỉnh theo yêu cầu */
+  width: 70%; /* Điều chỉnh theo yêu cầu */
   padding: 20px;
   background-color: #c7d7d675;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
-  margin-right: 100px;
+  /* margin-right: 100px; */
   /* ...các styles khác... */
 }
 
@@ -142,4 +142,10 @@ button:last-child {
   border-color: #333;
   color: #333;
 }
-/* ...CSS khác */
+/* css cho A, B, C, D */
+.option-letter {
+  font-weight: bold;
+  font-size: 20px;
+  color: #3366ff; /* Màu sắc của các chữ cái */
+  margin-right: 5px; /* Khoảng cách giữa chữ cái và đáp án */
+}

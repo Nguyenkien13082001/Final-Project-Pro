@@ -1,0 +1,81 @@
+/* PracticeResults.css */
+
+.results-container {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-title {
+  text-align: center;
+  color: #5e5e5e;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f2f2f2;
+  border-radius: 8px;
+}
+
+.score-item {
+  text-align: center;
+}
+
+.score-value {
+  font-size: 2em;
+  font-weight: bold;
+  color: #4a90e2;
+}
+
+.score-label {
+  font-size: 0.85em;
+  color: #9b9b9b;
+  text-transform: uppercase;
+}
+
+.questions-results {
+  margin-top: 20px;
+}
+
+.question-result-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  border-left: 4px solid #4a90e2;
+  border-radius: 4px;
+}
+
+.question-content {
+  margin-bottom: 5px;
+}
+
+.question-text {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.question-answers {
+  margin-left: 20px;
+}
+
+.user-answer,
+.correct-answer {
+  font-size: 0.95em;
+  margin-bottom: 5px;
+}
+
+.user-answer span,
+.correct-answer span {
+  font-weight: 600;
+}

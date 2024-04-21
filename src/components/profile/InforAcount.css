@@ -36,7 +36,8 @@
 
 .profile-info label {
   font-weight: 600; /* Slightly heavier font-weight */
-  color: #333;
+  color: #4509d7;
+  font-size: 20px;
   display: block; /* Changed to block to have each on its own line */
   margin-bottom: 10px; /* Spacing after each label */
 }
@@ -46,6 +47,7 @@
   text-align: center; /* Center align the content */
   color: #555; /* Slightly darker font color for better readability */
   margin-bottom: 20px; /* Spacing after each content */
+  font-weight: 600;
 }
 
 /* Adding responsive design */

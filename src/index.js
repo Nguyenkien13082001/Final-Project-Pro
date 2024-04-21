@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProfile from "./components/profile/EditProfile";
 import TopicInterface from "./Page/TopicInterface";
 import ExamInterfaceOne from "./components/ExamInterfaceOne/ExamInterfaceOne";
+import PracticeResults from "./components/PracticeResults/PracticeResults";
+import LearningProcessPage from "./Page/LearningProcessPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -34,6 +36,8 @@ root.render(
         />
         <Route path="admin" element={<Admin />} />
         <Route path="admin/account" element={<Acount />} />
+        <Route path="/PracticeResults/:exam_id" element={<PracticeResults />} />
+        <Route path="learning-process" element={<LearningProcessPage />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

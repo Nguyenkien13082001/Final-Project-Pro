@@ -4,10 +4,11 @@ import apiClient from "../../api/apiClient";
 import { useParams } from "react-router-dom";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { Link, useNavigate } from "react-router-dom";
+import { set } from "date-fns";
 
 const ExamInterfaceOne = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  // const [timer, setTimer] = useState(300); // Thời gian thi là 5 phút
+  const [timer, setTimer] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
   // const [isPaused, setIsPaused] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
@@ -15,6 +16,7 @@ const ExamInterfaceOne = () => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [questions, setQuestions] = useState([]);
   const { exam_id } = useParams();
+  const [exam_type, setExamType] = useState("M");
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [isselected, setIsSelected] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -38,12 +40,24 @@ const ExamInterfaceOne = () => {
       setQuestions(response);
       setCorrectAnswers(Array(response.length).fill(null));
       setIsSelected(Array(response.length).fill(false));
-      setAnswers(Array(response.length).fill(null));
+      setAnswers(Array(response.length).fill(""));
       console.log("abs<>", response);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const exam_type = async () => {
+      try {
+        const response = await apiClient.get(`api/get_exam_type/${exam_id}`);
+        setExamType(response.exam_type);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    exam_type();
+  }, [exam_id]);
 
   useEffect(() => {
     console.log("useEffect is called");
@@ -72,26 +86,50 @@ const ExamInterfaceOne = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("Timer effect");
-  //   if (!isPaused) {
-  //     const timerId = setInterval(() => {
-  //       setTimer((t) => t - 1);
-  //     }, 1000);
-  //     return () => clearInterval(timerId);
-  //   }
-  // }, [isPaused]);
   useEffect(() => {
-    let interval;
+    // Assuming 40 minutes for an exam, converting minutes to seconds
+    const examDuration = 40 * 60; // 40 minutes in seconds
 
-    if (isRunning) {
-      interval = setInterval(() => {
-        setTimeElapsed((prevTime) => prevTime + 1);
-      }, 1000);
+    if (exam_type === "M") {
+      setTimer(examDuration); // Set for countdown
+      setTimeElapsed(0); // Reset time elapsed for new session
+    } else if (exam_type === "P") {
+      setTimer(0); // Start from zero for practice
+      setTimeElapsed(0); // Reset time elapsed for new session
     }
+  }, [exam_type]); // This effect runs when exam_type changes
 
-    return () => clearInterval(interval);
-  }, [isRunning]);
+  useEffect(() => {
+    let timerId;
+    if (isRunning) {
+      if (exam_type === "M") {
+        timerId = setInterval(() => {
+          setTimer((t) => Math.max(t - 1, 0)); // Ensure timer does not go below 0
+          setTimeElapsed((prevTime) => prevTime + 1);
+        }, 1000);
+      } else if (exam_type === "P") {
+        timerId = setInterval(() => {
+          setTimer((t) => t + 1);
+          setTimeElapsed((prevTime) => prevTime + 1);
+        }, 1000);
+      }
+    } else {
+      clearInterval(timerId);
+    }
+    return () => clearInterval(timerId);
+  }, [isRunning, exam_type]);
+
+  // useEffect(() => {
+  //   let interval;
+
+  //   if (isRunning) {
+  //     interval = setInterval(() => {
+  //       setTimeElapsed((prevTime) => prevTime + 1);
+  //     }, 1000);
+  //   }
+
+  //   return () => clearInterval(interval);
+  // }, [isRunning]);
 
   const handleNextQuestion = () => {
     setShowExplaination(false);
@@ -117,20 +155,40 @@ const ExamInterfaceOne = () => {
   };
 
   const handleSubmitExam = async () => {
+    // Kiểm tra xem tất cả câu hỏi đã được trả lời hay chưa
+    const allAnswered =
+      answers.length === questions.length &&
+      answers.every((answer) => answer !== "");
+
+    if (!allAnswered) {
+      // Nếu chưa trả lời hết, hiển thị thông báo xác nhận
+      const confirmSubmit = window.confirm(
+        "You have not completed all the questions. Are you sure you want to submit your assignment?"
+      );
+      if (!confirmSubmit) {
+        return; // Nếu người dùng chọn không nộp, hủy hàm
+      }
+    } else {
+      // Nếu đã trả lời hết, hiển thị thông báo xác nhận khác
+      const confirmSubmit = window.confirm(
+        "Are you sure you want to submit your assignment?"
+      );
+      if (!confirmSubmit) {
+        return; // Nếu người dùng chọn không nộp, hủy hàm
+      }
+    }
+
     try {
       const response = await apiClient.post("/api/submit_exam", {
         exam_id: exam_id,
         time_elapsed: timeElapsed,
-        exam_result: {
-          question_id: questions.map((question) => question.question_id),
-          user_choice: answers,
-        },
+        user_choices: answers.map((answer, index) => ({
+          question_id: questions[index].question_id,
+          user_choice: answer,
+        })),
       });
-      console.log("Exam submitted successfully:", response.data);
-      // Sau khi submit thành công, bạn có thể chuyển hướng người dùng đến trang kết quả
-      navigate(`/PracticeResults/${exam_id}`, {
-        replace: true,
-      });
+      console.log("Exam submitted successfully:", response);
+      navigate(`/PracticeResults/${exam_id}`, { replace: true });
     } catch (error) {
       console.error("Error submitting exam:", error);
     }
@@ -144,13 +202,23 @@ const ExamInterfaceOne = () => {
     }${seconds}`;
   };
 
+  const handleExit = () => {
+    const confirmExit = window.confirm(
+      "Are you sure you want to exit? If you exit, your test will not be saved"
+    );
+    if (confirmExit) {
+      navigate("/", { replace: true });
+    }
+  };
+
   return (
     <MathJaxContext config={config}>
       <div className="exam-interface-container">
         <div key={currentQuestionIndex} className="exam-interface">
           <div className="timer">
             {/* Thời gian còn lại: {Math.floor(timer / 60)}:{timer % 60} */}
-            <h3>Time: {formatTime(timeElapsed)}</h3>
+            {/* <h3>Time: {formatTime(timeElapsed)}</h3> */}
+            Time: {formatTime(timer)}
           </div>
           <MathJax dynamic>
             <div className="question-progress">
@@ -160,56 +228,112 @@ const ExamInterfaceOne = () => {
               {questions.length > 0 && questions[currentQuestionIndex] ? (
                 <>
                   <h3>{questions[currentQuestionIndex].question}</h3>
-                  <ul>
-                    {Object.keys(
-                      questions[currentQuestionIndex].answers[0]
-                    ).map((key, index) => {
-                      const answer =
-                        questions[currentQuestionIndex].answers[0][key];
-                      return (
-                        <React.Fragment key={key}>
-                          <li
-                            style={{
-                              backgroundColor: "#f3f3f3",
-                              border:
-                                answers[currentQuestionIndex] === answer
-                                  ? correctAnswers[currentQuestionIndex] ===
-                                    answer
+
+                  {exam_type === "P" ? (
+                    <ul>
+                      {Object.keys(
+                        questions[currentQuestionIndex].answers[0]
+                      ).map((key, index) => {
+                        const answer =
+                          questions[currentQuestionIndex].answers[0][key];
+                        return (
+                          <React.Fragment key={key}>
+                            <li
+                              style={{
+                                backgroundColor: "#f3f3f3",
+                                border:
+                                  answers[currentQuestionIndex] === answer
+                                    ? correctAnswers[currentQuestionIndex] ===
+                                      answer
+                                      ? "2px solid green"
+                                      : "2px solid red"
+                                    : correctAnswers[currentQuestionIndex] ===
+                                      answer
                                     ? "2px solid green"
-                                    : "2px solid red"
-                                  : correctAnswers[currentQuestionIndex] ===
-                                    answer
-                                  ? "2px solid green"
-                                  : "none",
-                            }}
-                            onClick={() => {
-                              if (!isselected[currentQuestionIndex]) {
-                                checkAnswer(
-                                  questions[currentQuestionIndex].question_id,
-                                  currentQuestionIndex
-                                );
+                                    : "none",
+                              }}
+                              onClick={() => {
+                                if (!isselected[currentQuestionIndex]) {
+                                  // Check and resume timer if paused
+                                  if (!isRunning) {
+                                    setIsRunning(true);
+                                  }
+                                  checkAnswer(
+                                    questions[currentQuestionIndex].question_id,
+                                    currentQuestionIndex
+                                  );
+                                  setAnswers((prev) => {
+                                    const newAnswers = [...prev];
+                                    newAnswers[currentQuestionIndex] = answer;
+                                    return newAnswers;
+                                  });
+                                }
+                              }}
+                            >
+                              <span className="option-letter">
+                                {String.fromCharCode(65 + index)}.{" "}
+                              </span>
+                              {answer}
+                            </li>
+                          </React.Fragment>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <ul>
+                      {Object.keys(
+                        questions[currentQuestionIndex].answers[0]
+                      ).map((key, index) => {
+                        const answer =
+                          questions[currentQuestionIndex].answers[0][key];
+                        return (
+                          <React.Fragment key={key}>
+                            <li
+                              style={{
+                                backgroundColor: "#f3f3f3",
+                                border:
+                                  answers[currentQuestionIndex] === answer
+                                    ? "2px solid green"
+                                    : "none",
+                              }}
+                              onClick={() => {
+                                if (!isRunning) {
+                                  setIsRunning(true);
+                                }
                                 setAnswers((prev) => {
                                   const newAnswers = [...prev];
                                   newAnswers[currentQuestionIndex] = answer;
                                   return newAnswers;
                                 });
-                              }
-                            }}
-                          >
-                            <span className="option-letter">
-                              {String.fromCharCode(65 + index)}.{" "}
-                            </span>
-                            {answer}
-                          </li>
-                        </React.Fragment>
-                      );
-                    })}
-                  </ul>
-                  <button style={{ width: "auto" }} onClick={toggleExplanation}>
-                    {showExplaination ? "Show Explanation" : "Hide explanation"}
-                  </button>
-                  {showExplaination && (
-                    <p>{questions[currentQuestionIndex].explaination}</p>
+                              }}
+                            >
+                              <span className="option-letter">
+                                {String.fromCharCode(65 + index)}.{" "}
+                              </span>
+                              {answer}
+                            </li>
+                          </React.Fragment>
+                        );
+                      })}
+                    </ul>
+                  )}
+
+                  {exam_type === "P" ? (
+                    <>
+                      <button
+                        style={{ width: "auto" }}
+                        onClick={toggleExplanation}
+                      >
+                        {showExplaination
+                          ? "Hide Explanation"
+                          : "Show explanation"}
+                      </button>
+                      {showExplaination && (
+                        <p>{questions[currentQuestionIndex].explaination}</p>
+                      )}
+                    </>
+                  ) : (
+                    <></>
                   )}
                 </>
               ) : (
@@ -219,7 +343,7 @@ const ExamInterfaceOne = () => {
           </MathJax>
 
           <div className="navigation">
-            <button onClick={handleSubmitExam} className="submit-exam">
+            <button onClick={handleExit} className="submit-exam">
               Exit
             </button>
             <button
@@ -251,6 +375,7 @@ const ExamInterfaceOne = () => {
             {Array.from({ length: questions.length }, (_, i) => (
               <button
                 key={i}
+                style={answers[i] ? { backgroundColor: "#4caf50" } : {}}
                 className={`question-list-item ${
                   currentQuestionIndex === i ? "active" : ""
                 }`}

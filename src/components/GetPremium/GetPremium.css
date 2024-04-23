@@ -1,0 +1,75 @@
+/* GetPremium.css */
+
+/* Container */
+.get-premium-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  font-family: "Arial", sans-serif;
+}
+
+/* Premium Card */
+.premium-card {
+  width: 90%;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 20px;
+  text-align: center;
+}
+
+.premium-card h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.premium-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.premium-card li {
+  padding: 10px;
+  border-bottom: 1px solid #ececec;
+  color: #666;
+  font-size: 16px;
+}
+
+.premium-card li:last-child {
+  border-bottom: none;
+}
+
+/* QR Code */
+.qr-code-img {
+  margin-top: 20px;
+  width: 160px;
+  height: 160px;
+}
+
+/* Button */
+.btnPremium {
+  display: block;
+  width: 80%;
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 12px 0;
+  background-color: #007bff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}

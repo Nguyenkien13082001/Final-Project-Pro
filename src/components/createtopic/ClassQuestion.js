@@ -38,6 +38,7 @@ export default function ClassQuestion() {
     try {
       const response = await apiClient.get("api/get_class_admin");
       setListClass(response.classes);
+      console.log("List class:", response.classes);
     } catch (error) {}
   };
   const getChapter = async (classId) => {
@@ -303,7 +304,19 @@ export default function ClassQuestion() {
   return (
     <div className="class-question-container">
       <form className="exam-builder-form">
-        <h1 className="exam-builder-title">Exam Builder</h1>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <h1 className="exam-builder-title">Exam Builder</h1>
+          <div className="button-container">
+            <button
+              type="button"
+              className="btn-generate-exam"
+              onClick={handleCreateExam}
+            >
+              Generate Exam
+            </button>
+          </div>
+        </div>
+
         <div className="form-section">
           <div className="form-group">
             <label htmlFor="class-select" className="form-label">
@@ -394,16 +407,6 @@ export default function ClassQuestion() {
               )}
             </div>
           ))}
-        </div>
-
-        <div className="button-container">
-          <button
-            type="button"
-            className="btn-generate-exam"
-            onClick={handleCreateExam}
-          >
-            Generate Exam
-          </button>
         </div>
       </form>
     </div>

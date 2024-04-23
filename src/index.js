@@ -18,6 +18,9 @@ import TopicInterface from "./Page/TopicInterface";
 import ExamInterfaceOne from "./components/ExamInterfaceOne/ExamInterfaceOne";
 import PracticeResults from "./components/PracticeResults/PracticeResults";
 import LearningProcessPage from "./Page/LearningProcessPage";
+import EvaluatePage from "./Page/EvaluatePage";
+import PracticeResultsPage from "./Page/PracticeResultsPage";
+import GetPremiumPage from "./Page/GetPremiumPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -34,10 +37,16 @@ root.render(
           path="/creattopic/TopicInterface/:exam_id"
           element={<ExamInterfaceOne />}
         />
+
         <Route path="admin" element={<Admin />} />
         <Route path="admin/account" element={<Acount />} />
-        <Route path="/PracticeResults/:exam_id" element={<PracticeResults />} />
+        <Route
+          path="/PracticeResults/:exam_id"
+          element={<PracticeResultsPage />}
+        />
         <Route path="learning-process" element={<LearningProcessPage />} />
+        <Route path="/evaluate" element={<EvaluatePage />} />
+        <Route path="/get-premium" element={<GetPremiumPage />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

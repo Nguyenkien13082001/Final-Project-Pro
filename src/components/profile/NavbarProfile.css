@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
+/* Các thuộc tính CSS cơ bản cho thanh navbar */
+.navbar-menu {
+  height: 100vh;
+  background-color: white;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  left: 0;
+  top: 50px;
+  width: 210px;
+  transition: left 0.3s; /* Thêm hiệu ứng chuyển động khi đóng/mở */
+  display: absolute;
+}
+
+.burger {
+  display: none; /* Ẩn mặc định và sẽ hiển thị trên màn hình nhỏ */
+  justify-content: flex-end;
+}
+
+.navbar__list {
+  list-style-type: none;
+  padding-left: 0; /* Loại bỏ padding mặc định */
+}
+.navbar__li {
+  display: inline-block;
+  padding: 0px 0px 0px 12px;
+  position: relative;
+  top: 2.5px;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 38px;
+  color: #000;
+  font-family: "Lato";
+  font-weight: 400;
+}
+.navbar__li-box:first-child {
+  margin-top: 53px;
+}
+.navbar__li-box {
+  height: 43px;
+  margin-top: 15px;
+}
+.navbar__li-box:hover {
+  border-left: 7px solid #58b5fc;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .navbar-menu {
+    width: 50px; /* Giảm chiều rộng của navbar trên điện thoại để giải phóng không gian */
+  }
+
+  .navbar__li,
+  .navbar__li-box {
+    text-align: center; /* Căn giữa nội dung của navbar */
+    padding: 10px 0; /* Giảm padding để tăng không gian hiển thị */
+  }
+
+  .navbar__li-box {
+    margin-top: 10px; /* Giảm khoảng cách giữa các mục */
+  }
+
+  /* Có thể cần thiết chỉnh font-size hoặc ẩn văn bản đi và chỉ hiển thị icon nếu có */
+  .navbar__li {
+    font-size: 12px; /* Chỉnh nhỏ kích thước chữ nếu cần */
+    display: none !important;
+  }
+  .navbar__list {
+    list-style-type: none;
+
+    margin-left: -25px;
+  }
+
+  /* Nếu có icons, hãy đảm bảo chúng hiển thị đúng */
+  .navbar__icon {
+  }
+
+  /* Ẩn tên mục hoặc thay đổi nếu cần */
+  .navbar__li-text {
+    display: none; /* Hoặc sử dụng `visibility: hidden;` nếu muốn giữ không gian */
+  }
+}

@@ -8,13 +8,13 @@ html {
   font-family: Arial, Helvetica, sans-serif !important;
 }
 
-.Nav {
+/* .Nav {
   position: fixed;
   margin-top: 0;
   margin-left: 0;
   width: 100%;
   z-index: 1000;
-}
+} */
 
 .footer-distributed {
   background: #e0efef;
@@ -204,81 +204,4 @@ html {
   }
 }
 
-@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
-
-.navbar-menu {
-  height: 100vh;
-  background-color: white;
-  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
-  position: fixed;
-  left: 0;
-  top: 50px;
-  width: 210px;
-}
-.burger {
-  display: flex;
-  justify-content: flex-end;
-}
-.burger img {
-  padding: 25px 8px 0px 0px;
-  cursor: pointer;
-}
-.navbar__list {
-  list-style-type: none;
-}
-.navbar__li {
-  display: inline-block;
-  padding: 0px 0px 0px 12px;
-  position: relative;
-  top: 2.5px;
-  font-size: 16px;
-  letter-spacing: 0px;
-  line-height: 38px;
-  color: #000;
-  font-family: "Lato";
-  font-weight: 400;
-}
-.navbar__li-box:first-child {
-  margin-top: 53px;
-}
-.navbar__li-box {
-  height: 43px;
-  margin-top: 15px;
-}
-.navbar__li-box:hover {
-  border-left: 7px solid #58b5fc;
-  cursor: pointer;
-}
-
 /* css menu */
-
-.Nav-Link {
-  text-decoration: none;
-  color: rgb(0 0 0);
-  line-height: 66px;
-  padding: 0 15px;
-}
-
-.Nav-Link:hover {
-  color: #58b5fc;
-  font-size: 18px;
-}
-
-.dropdown #dropdown-basic {
-  width: 100% !important;
-  margin-left: 10px;
-}
-.dropdown .dropdown-menu {
-  left: -100% !important;
-}
-
-.form_SeachHome {
-  display: flex;
-  justify-content: end;
-  margin-top: 10px;
-  margin-right: 90px;
-}
-
-.btn_SeachHome {
-  width: 90px;
-}

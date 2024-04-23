@@ -133,6 +133,7 @@ button:last-child {
   text-align: center;
   cursor: pointer;
   width: 100%;
+  background-color: #3366ff;
 
   /* ...các styles khác... */
 }

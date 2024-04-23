@@ -9,6 +9,10 @@
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 80vh;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .results-title {
@@ -46,13 +50,14 @@
 
 .questions-results {
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .question-result-item {
   padding: 15px;
   margin-bottom: 10px;
   background: #fafafa;
-  border-left: 4px solid #4a90e2;
+  cursor: pointer;
   border-radius: 4px;
 }
 

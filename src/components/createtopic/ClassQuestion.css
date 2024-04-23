@@ -103,6 +103,9 @@
 }
 
 .btn-generate-exam {
+  width: auto;
+  height: auto;
+  margin-right: -452px !important;
   padding: 12px 25px;
   background-color: #4caf50;
   color: white;
@@ -110,7 +113,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 30px;
   transition: background-color 0.3s;
 }
 
@@ -145,7 +148,7 @@
 /* Button styles for select all / deselect all */
 .select-deselect-all-btn {
   padding: 10px 20px;
-
+  background-color: #7daaec; /* Màu nền của nút */
   color: white; /* Màu chữ của nút */
   border: none; /* Không có viền */
   border-radius: 4px; /* Bo góc */
@@ -153,6 +156,7 @@
   font-size: 15px; /* Kích thước chữ */
   width: auto; /* Chiều rộng nút */
   transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+  display: flex;
 }
 
 .select-deselect-all-btn:hover {

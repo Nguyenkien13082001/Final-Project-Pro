@@ -1,0 +1,85 @@
+.evaluater {
+  font-family: "Arial", sans-serif;
+  margin: auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 1400px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 150px;
+  margin-top: 100px;
+  margin-left: 350px;
+  margin-right: 10px;
+  height: 60vh;
+}
+
+.evaluater h1 {
+  color: #333;
+  margin-bottom: 20px; /* Tạo khoảng cách với phần dưới */
+}
+
+.charts {
+  display: flex;
+  justify-content: space-around;
+  width: 100%; /* Sử dụng đầy đủ chiều rộng của container */
+  margin-bottom: 20px; /* Tạo khoảng cách với phần dưới */
+}
+
+.feedback {
+  width: 100%; /* Đồng nhất chiều rộng với các phần khác */
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.feedback h2 {
+  color: #666;
+  margin-bottom: 10px; /* Tạo khoảng cách với nội dung phản hồi */
+}
+
+.feedback p {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Responsive Container for Charts */
+.ResponsiveContainer {
+  width: 100%; /* Đảm bảo biểu đồ điền đầy container */
+  height: 300px; /* Đặt chiều cao cố định cho biểu đồ */
+}
+
+@media (max-width: 768px) {
+  .evaluater {
+    width: 80%; /* Tăng chiều rộng trên màn hình nhỏ để sử dụng không gian hiệu quả hơn */
+    padding: 10px; /* Giảm padding để không gian hiển thị nội dung được tối đa hóa */
+    margin: auto;
+    margin-right: 27px;
+  }
+
+  .charts {
+    flex-direction: column; /* Chuyển các biểu đồ thành hướng dọc */
+  }
+
+  .feedback,
+  .charts {
+    width: 100%; /* Sử dụng đầy đủ chiều rộng có sẵn */
+  }
+
+  /* Giảm kích thước và định dạng lại văn bản để dễ đọc trên màn hình nhỏ */
+  .feedback h2,
+  .feedback p {
+    font-size: 14px;
+  }
+
+  /* Điều chỉnh lại biểu đồ để phù hợp với màn hình nhỏ hơn */
+  .ResponsiveContainer {
+    height: 200px; /* Giảm chiều cao của biểu đồ cho màn hình nhỏ */
+  }
+}

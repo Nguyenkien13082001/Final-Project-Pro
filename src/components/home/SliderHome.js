@@ -4,8 +4,8 @@ import Slider1 from "./../../img/slider1.png";
 
 export default function SliderHome() {
   return (
-    <div>
-      <Carousel style={{ marginTop: "66px", display: "flex" }}>
+    <div style={{ marginTop: "75px" }}>
+      <Carousel style={{ display: "flex" }}>
         <Carousel.Item interval={1500}>
           <img
             className="Slide-img"

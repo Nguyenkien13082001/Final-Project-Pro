@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./../../style/style.css";
+import "./NavbarProfile.css";
 
 const li = [
   ["profile", "img/manage user.svg"],

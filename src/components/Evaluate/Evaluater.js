@@ -1,109 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import "./Evaluater.css";
-// import {
-//   BarChart,
-//   Bar,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   Legend,
-//   ResponsiveContainer,
-// } from "recharts";
-// import axios from "axios";
-// import apiClient from "../../api/apiClient";
-// import { set } from "date-fns";
-
-// export default function Evaluater() {
-//   const [studentData, setStudentData] = useState([]);
-//   const [scoresChartData, setScoresChartData] = useState([]);
-//   const [timeChartData, setTimeChartData] = useState([]);
-
-//   useEffect(() => {
-//     const fetchStudentData = async () => {
-//       try {
-//         const response = await apiClient.get("/api/get_count_exams");
-//         setStudentData(response);
-//       } catch (error) {
-//         console.error("Error fetching student data:", error);
-//       }
-//     };
-//     fetchStudentData();
-//   }, []);
-
-//   useEffect(() => {
-//     console.log("studentData", studentData);
-//     if (studentData && studentData.monthlyScores) {
-//       setScoresChartData(processScoreData(studentData.monthlyScores));
-//     }
-//     if (studentData && studentData.monthlyCompletionTime) {
-//       setTimeChartData(processTimeData(studentData.monthlyCompletionTime));
-//     }
-//   }, [studentData]); // Khi studentData thay đổi, cập nhật dữ liệu biểu đồ
-
-//   // Helper function to process scores data
-//   const processScoreData = (monthlyData) =>
-//     Object.keys(monthlyData).map((month) => ({
-//       month,
-//       Average: monthlyData[month][0],
-//       Min: monthlyData[month][1],
-//       Max: monthlyData[month][2],
-//     }));
-
-//   // Helper function to calculate average times
-//   const processTimeData = (monthlyData) =>
-//     Object.keys(monthlyData).map((month) => ({
-//       month,
-//       Average: monthlyData[month],
-//     }));
-
-//   return (
-//     <div className="evaluater">
-//       {/* <h1>Evaluation for {student.name}</h1> */}
-//       {studentData ? (
-//         <div className="charts">
-//           <ResponsiveContainer width="50%" height={300}>
-//             <BarChart
-//               data={scoresChartData}
-//               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-//             >
-//               <CartesianGrid strokeDasharray="3 3" />
-//               <XAxis dataKey="month" />
-//               <YAxis />
-//               <Tooltip />
-//               <Legend />
-//               <Bar dataKey="Average" fill="#8884d8" />
-//               <Bar dataKey="Min" fill="#82ca9d" />
-//               <Bar dataKey="Max" fill="#ffc658" />
-//             </BarChart>
-//           </ResponsiveContainer>
-//           <ResponsiveContainer width="50%" height={300}>
-//             <BarChart
-//               data={timeChartData}
-//               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-//             >
-//               <CartesianGrid strokeDasharray="3 3" />
-//               <XAxis dataKey="month" />
-//               <YAxis
-//                 label={{ value: "Seconds", angle: -90, position: "insideLeft" }}
-//               />
-//               <Tooltip />
-//               <Legend />
-//               <Bar dataKey="Average" fill="#8884d8" />
-//             </BarChart>
-//           </ResponsiveContainer>
-//         </div>
-//       ) : (
-//         <p>Loading...</p>
-//       )}
-//       <div className="feedback">
-//         <h2>Teacher's Feedback</h2>
-//         <p>{studentData.feedback}</p>
-//       </div>
-//     </div>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 import "./Evaluater.css";
 import {
@@ -198,9 +92,12 @@ const Evaluater = () => {
 
   return (
     <div className="evaluater">
+      <div>
+        <h1>Evaluate</h1>
+      </div>
       {studentData ? (
         <div className="charts">
-          <ResponsiveContainer width="50%" height={300}>
+          <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={scoresChartData}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -215,7 +112,7 @@ const Evaluater = () => {
               <Bar dataKey="Max" fill="#ffc658" />
             </BarChart>
           </ResponsiveContainer>
-          <ResponsiveContainer width="50%" height={300}>
+          <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={timeChartData}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -224,7 +121,7 @@ const Evaluater = () => {
               <XAxis dataKey="month" />
               <YAxis
                 label={{
-                  value: "Giây",
+                  value: "Second",
                   angle: -90,
                   position: "insideLeft",
                 }}

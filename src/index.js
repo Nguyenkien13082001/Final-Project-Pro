@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Login from "./Page/Login";
 import Home from "./Page/Home";
 import CreatTopic from "./Page/CreatTopic";
@@ -21,36 +21,35 @@ import LearningProcessPage from "./Page/LearningProcessPage";
 import EvaluatePage from "./Page/EvaluatePage";
 import PracticeResultsPage from "./Page/PracticeResultsPage";
 import GetPremiumPage from "./Page/GetPremiumPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="creattopic" element={<CreatTopic />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="editprofile" element={<EditProfile />} />
-        <Route
-          path="/creattopic/TopicInterface/:exam_id"
-          element={<ExamInterfaceOne />}
-        />
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route index element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="creattopic" element={<CreatTopic />} />
+      <Route path="profile" element={<Profile />} />
+      <Route path="editprofile" element={<EditProfile />} />
+      <Route
+        path="/creattopic/TopicInterface/:exam_id"
+        element={<ExamInterfaceOne />}
+      />
 
-        <Route path="admin" element={<Admin />} />
-        <Route path="admin/account" element={<Acount />} />
-        <Route
-          path="/PracticeResults/:exam_id"
-          element={<PracticeResultsPage />}
-        />
-        <Route path="learning-process" element={<LearningProcessPage />} />
-        <Route path="/evaluate" element={<EvaluatePage />} />
-        <Route path="/get-premium" element={<GetPremiumPage />} />
-      </Routes>
-      <ToastContainer />
-    </BrowserRouter>
-  </React.StrictMode>
+      <Route path="admin" element={<Admin />} />
+      <Route path="admin/account" element={<Acount />} />
+      <Route
+        path="/PracticeResults/:exam_id"
+        element={<PracticeResultsPage />}
+      />
+      <Route path="learning-process" element={<LearningProcessPage />} />
+      <Route path="/evaluate" element={<EvaluatePage />} />
+      <Route path="/get-premium" element={<GetPremiumPage />} />
+    </Routes>
+    <ToastContainer />
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

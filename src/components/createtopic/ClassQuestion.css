@@ -33,7 +33,6 @@
   font-size: 24px;
   text-align: center;
   color: #205493;
-  margin-bottom: 30px;
 }
 
 .form-section {
@@ -105,8 +104,7 @@
 .btn-generate-exam {
   width: auto;
   height: auto;
-  margin-right: -452px !important;
-  padding: 12px 25px;
+
   background-color: #4caf50;
   color: white;
   border: none;
@@ -166,7 +164,7 @@
 /* Tùy chỉnh cho responsive */
 @media (max-width: 768px) {
   .select-deselect-all-btn {
-    width: 100%; /* Chiều rộng nút cho màn hình nhỏ */
+    width: 30%; /* Chiều rộng nút cho màn hình nhỏ */
     padding: 10px 0; /* Padding cho màn hình nhỏ */
   }
 }

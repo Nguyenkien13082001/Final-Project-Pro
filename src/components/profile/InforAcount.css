@@ -49,19 +49,6 @@
   margin-bottom: 20px; /* Spacing after each content */
   font-weight: 600;
 }
-
-/* Adding responsive design */
-@media (max-width: 768px) {
-  .user-profile {
-    padding: 30px 15px;
-  }
-
-  .user-profile img {
-    width: 100px;
-    height: 100px;
-  }
-}
-
 .avatar {
   vertical-align: middle;
   cursor: pointer;
@@ -75,4 +62,23 @@
   margin-left: 10px;
   outline: none;
   border: none;
+}
+
+/* Adding responsive design */
+@media (max-width: 768px) {
+  .user-profile {
+    padding: 30px 15px;
+    width: 80%;
+    margin-left: 70px;
+    margin-top: 20px;
+  }
+
+  .user-profile img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-info label {
+    font-size: 16px;
+  }
 }

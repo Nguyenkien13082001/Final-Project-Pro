@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../../api/apiClient";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
-
+import { BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
 function FormLogin() {
   const [activeTab, setActiveTab] = useState("login");
-
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -97,9 +98,10 @@ function FormLogin() {
         >
           <img style={{ width: "80px", height: "80px" }} src={logo} alt="" />
           <h2 style={{ color: "Highlight" }}>Welcome to Edusmart</h2>
-          <h1>{activeTab === "login" ? "Sign In" : "Sign Up"}</h1>
+          <h1>{activeTab === "login" ? "Login" : "Sign Up"}</h1>
           {activeTab === "register" && (
             <input
+              style={{ marginTop: "10px" }}
               type="text"
               name="name"
               placeholder="Name"
@@ -111,6 +113,7 @@ function FormLogin() {
 
           {activeTab === "register" && (
             <input
+              style={{ marginTop: "10px" }}
               name="dob"
               id="dob"
               type="date"
@@ -118,41 +121,54 @@ function FormLogin() {
               value={
                 formData.dob ? format(new Date(formData.dob), "yyyy-MM-dd") : ""
               }
+              max={new Date().toISOString().split("T")[0]}
               onChange={handleChange}
               required
             />
           )}
           <input
+            style={{ marginTop: "10px" }}
             type="email"
             name="email"
             id="email"
             placeholder="email"
-            value={formData.emai}
+            value={formData.email}
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div className="form-input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              id="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <span onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? (
+                <BiHide style={{ fontSize: "22px" }} />
+              ) : (
+                <BiShow style={{ fontSize: "22px" }} />
+              )}
+            </span>
+          </div>
           {activeTab === "register" && (
             <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
+              style={{ marginTop: "10px" }}
+              type={showPassword ? "text" : "password"}
+              name="password"
+              id="password"
+              placeholder="Password"
+              value={formData.password}
               onChange={handleChange}
               required
             />
           )}
 
-          <button type="submit">
-            {activeTab === "login" ? "Sign In" : "Sign Up"}
+          <button className="btnloginnn" type="submit">
+            {activeTab === "login" ? "Login" : "Sign Up"}
           </button>
         </form>
         {activeTab === "login" ? (
@@ -169,7 +185,7 @@ function FormLogin() {
           <p>
             Already have an account?{" "}
             <span className="tab-link" onClick={() => handleTabChange("login")}>
-              Sign In
+              Login
             </span>
           </p>
         )}

@@ -61,3 +61,34 @@ p {
 .cssp p {
   font-weight: 600;
 }
+
+.csstr {
+  text-align: center;
+}
+
+.csstr td {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .table {
+    width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng có sẵn */
+    font-size: 12px; /* Giảm kích thước font để phù hợp với màn hình nhỏ */
+    margin-left: 20px;
+  }
+  .Learning {
+    margin-left: 15px;
+  }
+  .table th,
+  .table td {
+    padding: 8px; /* Giảm padding để tăng không gian hiển thị */
+  }
+
+  .status-icon {
+    font-size: 16px; /* Giảm kích thước các biểu tượng trong bảng */
+  }
+
+  .csstr td {
+    padding: 4px; /* Thêm điều chỉnh padding cho các ô */
+  }
+}

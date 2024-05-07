@@ -11,6 +11,7 @@ export default function EditProfile({ user, onUpdateUser }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [passwordError, setPasswordError] = useState(false);
+  const [dateError, setDateError] = useState(""); // State mới cho lỗi ngày tháng
   const [formData, setFormData] = useState({
     name: user.Name,
     email: user.Email,
@@ -19,9 +20,30 @@ export default function EditProfile({ user, onUpdateUser }) {
     new_password: "",
     confirm_password: "",
   });
+  const validateDate = (date) => {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    // const currentDate = new Date();
+
+    // // Kiểm tra ngày nhập vào có lớn hơn ngày hiện tại không
+    // if (dateObj > currentDate) {
+    //   setDateError("Date of birth cannot be in the future.");
+    //   return false;
+    // }
+
+    // Kiểm tra năm nhập vào có nhỏ hơn 2000 không
+    if (year < 2000) {
+      setDateError("Year must be 2000 or later.");
+      return false;
+    }
+
+    setDateError(""); // Xóa bất kỳ lỗi nào nếu không có vấn đề
+    return true;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -37,22 +59,23 @@ export default function EditProfile({ user, onUpdateUser }) {
   }, [user]);
 
   const handleSave = async () => {
-    if (formData.confirm_password != formData.new_password) {
-      toast.error("New password does not match");
-    } else {
-      try {
-        // Kiểm tra mật khẩu cũ
+    if (!validateDate(formData.dob)) {
+      toast.error("Invalid date format. Please correct it before saving.");
+      return;
+    }
 
-        // Gọi API để cập nhật thông tin người dùng
-        await apiClient.put("/api/update_info", formData);
-        console.log("thành công ", formData);
-        onUpdateUser(); // Gọi callback để thông báo cho component cha
-        toast.success("Update Success");
-        handleClose();
-      } catch (error) {
-        toast.error(error.response.data.message);
-        // toast.error(error.reponse.data.message);
-      }
+    if (formData.confirm_password !== formData.new_password) {
+      toast.error("New password does not match");
+      return;
+    }
+
+    try {
+      await apiClient.put("/api/update_info", formData);
+      onUpdateUser(); // Gọi callback để thông báo cho component cha
+      toast.success("Update Success");
+      handleClose();
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
@@ -89,11 +112,13 @@ export default function EditProfile({ user, onUpdateUser }) {
             <Form.Group controlId="formDob">
               <Form.Label>DOB</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
                 name="dob"
                 value={formData.dob}
                 onChange={handleInputChange}
+                max={new Date().toISOString().split("T")[0]} // Ngày hiện tại là ngày tối đa, .split("T")[0]: Tách chuỗi tại ký tự 'T' và lấy phần đầu tiên, tức là ngày ("2024-05-06").
               />
+              {dateError && <div style={{ color: "red" }}>{dateError}</div>}
             </Form.Group>
 
             <Form.Group controlId="formOldPass">

@@ -119,18 +119,6 @@ const ExamInterfaceOne = () => {
     return () => clearInterval(timerId);
   }, [isRunning, exam_type]);
 
-  // useEffect(() => {
-  //   let interval;
-
-  //   if (isRunning) {
-  //     interval = setInterval(() => {
-  //       setTimeElapsed((prevTime) => prevTime + 1);
-  //     }, 1000);
-  //   }
-
-  //   return () => clearInterval(interval);
-  // }, [isRunning]);
-
   const handleNextQuestion = () => {
     setShowExplaination(false);
     if (currentQuestionIndex < questions.length - 1) {
@@ -221,9 +209,38 @@ const ExamInterfaceOne = () => {
             Time: {formatTime(timer)}
           </div>
           <MathJax dynamic>
+            <div className="navigation">
+              <button onClick={handleExit} className="submit-exam">
+                Exit
+              </button>
+
+              <button
+                className="btnthi"
+                onClick={handlePrevQuestion}
+                disabled={currentQuestionIndex === 0}
+              >
+                Previous Question
+              </button>
+
+              <button
+                className="btnthi"
+                onClick={handleNextQuestion}
+                disabled={currentQuestionIndex === questions.length - 1}
+              >
+                Next Question
+              </button>
+
+              <button className="btnthi" onClick={togglePause}>
+                {isRunning ? "Pause" : "Resume"}
+              </button>
+              <button onClick={handleSubmitExam} className="submit-exam">
+                Submit
+              </button>
+            </div>
             <div className="question-progress">
               Question {currentQuestionIndex + 1} / {questions.length}
             </div>
+
             <div className="question">
               {questions.length > 0 && questions[currentQuestionIndex] ? (
                 <>
@@ -341,30 +358,6 @@ const ExamInterfaceOne = () => {
               )}
             </div>
           </MathJax>
-
-          <div className="navigation">
-            <button onClick={handleExit} className="submit-exam">
-              Exit
-            </button>
-            <button
-              onClick={handlePrevQuestion}
-              disabled={currentQuestionIndex === 0}
-            >
-              Previous Question
-            </button>
-            <button
-              onClick={handleNextQuestion}
-              disabled={currentQuestionIndex === questions.length - 1}
-            >
-              Next Question
-            </button>
-            <button onClick={togglePause}>
-              {isRunning ? "Pause" : "Continue"}
-            </button>
-            <button onClick={handleSubmitExam} className="submit-exam">
-              Submit
-            </button>
-          </div>
         </div>
         <div>
           <div>

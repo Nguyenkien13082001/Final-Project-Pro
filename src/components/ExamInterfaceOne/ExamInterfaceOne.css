@@ -68,7 +68,7 @@
   text-align: center;
 }
 
-button {
+.btnthi {
   padding: 10px 20px;
   margin-right: 10px;
   font-size: 16px;
@@ -80,11 +80,11 @@ button {
   transition: background-color 0.3s;
 }
 
-button:hover {
+.btnthi:hover {
   background-color: #45a049;
 }
 
-button:disabled {
+.btnthi:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
@@ -101,6 +101,11 @@ button:last-child {
   border-radius: 4px;
   cursor: pointer;
   margin-left: auto; /* Đẩy nút Nộp Bài ra phía bên phải */
+  margin-right: 10px;
+}
+
+.submit-exam:hover {
+  background-color: #f44336b3; /* Màu đỏ nhạt khi hover */
 }
 
 .question-progress {
@@ -149,4 +154,67 @@ button:last-child {
   font-size: 20px;
   color: #3366ff; /* Màu sắc của các chữ cái */
   margin-right: 5px; /* Khoảng cách giữa chữ cái và đáp án */
+}
+
+.mathjax-container {
+  word-wrap: break-word; /* Cho phép từ ngắt xuống dòng */
+  overflow-wrap: break-word; /* Đảm bảo từ không bị tràn ra ngoài */
+}
+
+@media (max-width: 768px) {
+  .exam-interface-container {
+    flex-direction: column; /* Chuyển sang chế độ cột cho màn hình nhỏ */
+    align-items: center; /* Căn giữa các items để tối ưu không gian hiển thị */
+    gap: 10px; /* Giảm khoảng cách giữa các thành phần */
+  }
+
+  .exam-interface {
+    width: 100%; /* Chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation {
+    flex-direction: column; /* Đặt các nút theo chiều dọc */
+  }
+
+  .btnthi,
+  .submit-exam {
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng để dễ bấm hơn */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa các nút */
+  }
+
+  .btnthi {
+    margin-bottom: 10px; /* Tăng khoảng cách dưới cùng của nút */
+    padding: 8px 16px; /* Giảm padding để tiết kiệm không gian */
+  }
+}
+
+@media (max-width: 768px) {
+  .question-list {
+    display: block; /* Đổi từ grid sang block để cuộn dọc */
+    width: auto; /* Cho phép nó chiếm đủ chiều rộng cần thiết */
+    max-height: 300px; /* Giới hạn chiều cao và cho phép cuộn */
+    overflow-y: auto; /* Cho phép cuộn dọc */
+  }
+
+  .question-list-item {
+    width: auto; /* Điều chỉnh chiều rộng mỗi item */
+    margin-bottom: 5px; /* Thêm khoảng cách giữa các câu hỏi */
+  }
+}
+
+@media (max-width: 768px) {
+  .timer {
+    font-size: 18px; /* Tăng kích thước font cho dễ đọc */
+  }
+}
+@media (max-width: 768px) {
+  .MathJax_Display,
+  .MathJax {
+    max-width: 100% !important;
+    overflow-x: auto;
+    word-wrap: break-word;
+    white-space: normal !important;
+  }
 }

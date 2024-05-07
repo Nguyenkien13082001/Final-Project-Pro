@@ -10,24 +10,7 @@ export default function PracticeResults() {
   const config = {
     loader: { load: ["input/asciimath"] }, //mathjax config
   };
-  // Fake data giả định
-  // const fakeResults = {
-  //   score: 85,
-  //   correctCount: 17,
-  //   incorrectCount: 3,
-  //   unansweredCount: 0,
-  //   timeTaken: 1800, // giả sử thời gian là 30 phút
-  //   questions: [
-  //     {
-  //       question: "What is the capital of France?",
-  //       userAnswer: "Paris",
-  //       correctAnswer: "Paris",
-  //     },
-  //     // ...thêm các câu hỏi giả định khác
-  //   ],
-  // };
 
-  // Chuyển đổi thời gian làm bài từ giây sang định dạng phút:giây
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;

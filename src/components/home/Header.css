@@ -23,13 +23,35 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  position: relative; /* Cho phép sử dụng position cho pseudo-elements */
+  overflow: hidden; /* Giữ gạch chân trong phạm vi của text */
 }
 
-.header-nav .nav-link-custom:hover {
-  color: #58b5fc;
-  font-size: large;
+.header-nav .nav-link-custom::after,
+.header-nav .dropdown-link-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #58b5fc;
+  transition: width 0.3s ease-in-out;
 }
 
+.header-nav .nav-link-custom:hover::after,
+.header-nav .dropdown-link-text:hover::after {
+  width: 100%;
+}
+
+.header-nav .dropdown-link-text {
+  position: relative;
+}
+
+.header-nav .dropdown-link-custom::after {
+  display: none; /* Không hiển thị gạch chân cho dropdown */
+}
 .header-nav .dropdown-custom .dropdown-toggle {
   display: flex;
   align-items: center;

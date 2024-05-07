@@ -304,7 +304,7 @@ export default function ClassQuestion() {
   return (
     <div className="class-question-container">
       <form className="exam-builder-form">
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div>
           <h1 className="exam-builder-title">Exam Builder</h1>
           <div className="button-container">
             <button
@@ -330,7 +330,7 @@ export default function ClassQuestion() {
               <option value="">-- Select Class --</option>
               {listClass.map((classes) => (
                 <option key={classes.id} value={classes.id}>
-                  Grade {classes.name}
+                  Class {classes.name}
                 </option>
               ))}
             </select>

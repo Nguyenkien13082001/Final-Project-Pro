@@ -12,6 +12,9 @@ export default function Header() {
   const [classes, setClasses] = useState([]);
   const navigate = useNavigate();
 
+  const handleSelectClass = (classId) => {
+    navigate(`/documents/class/${classId}`);
+  };
   useEffect(() => {
     const fetchClasses = async () => {
       try {
@@ -46,36 +49,29 @@ export default function Header() {
                 Home
               </Link>
               <Link to="/creattopic" className="nav-link-custom">
-                Create Topic
+                Practice Test
               </Link>
-
               <Dropdown as={Nav.Item}>
-                <Dropdown.Toggle as={Nav.Link} className="nav-link-custom">
-                  Mock Exam
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  className="nav-link-custom dropdown-link-custom"
+                >
+                  <span className="dropdown-link-text">Mock Exam</span>{" "}
+                  {/* Thêm span này */}
                 </Dropdown.Toggle>
-                <Dropdown.Menu style={{ xl: "start" }}>
-                  {classes.length > 0 &&
-                    classes.map((cls) => (
-                      <Dropdown.Item onClick={() => handleClicked(cls.id)}>
-                        Grade {cls.name}
-                      </Dropdown.Item>
-                    ))}
+                <Dropdown.Menu style={{ marginLeft: "0" }}>
+                  {classes.map((cls) => (
+                    <Dropdown.Item
+                      key={cls.id}
+                      onClick={() => handleClicked(cls.id)}
+                    >
+                      Class {cls.name}
+                    </Dropdown.Item>
+                  ))}
                 </Dropdown.Menu>
               </Dropdown>
 
-              {/* <Dropdown.Item as={Link} to="/class10">
-                    Class 10
-                  </Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/class11">
-                    Class 11
-                  </Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/class12">
-                    Class 12
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown> */}
-
-              <Link to="#action2" className="nav-link-custom">
+              {/* <Link to="#action2" className="nav-link-custom">
                 Class 10
               </Link>
               <Link to="#action2" className="nav-link-custom">
@@ -83,7 +79,7 @@ export default function Header() {
               </Link>
               <Link to="#action2" className="nav-link-custom">
                 Class 12
-              </Link>
+              </Link> */}
             </Nav>
             {localStorage.getItem("token") ? (
               <Dropdown>

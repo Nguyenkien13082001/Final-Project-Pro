@@ -1,0 +1,71 @@
+/* src/components/home/Doc.css */
+.doc-container {
+  margin: auto;
+  width: 80%; /* Chiếm toàn bộ chiều rộng của container cha */
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap; /* Cho phép các items chuyển xuống dòng khi không đủ không gian */
+}
+
+.doc-item {
+  flex: 0 0 100%; /* Chiếm 100% chiều rộng trên màn hình nhỏ hơn, điều chỉnh ở các điểm dừng lớn hơn */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+.doc-card {
+  width: 70%; /* Điều chỉnh chiều rộng phù hợp với màn hình nhỏ */
+  cursor: pointer;
+}
+
+.doc-card-img {
+  height: 300px; /* Chiều cao cố định */
+  width: 200px; /* Chiều rộng cố định */
+}
+.doc-card .card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Hoặc một giá trị cụ thể tùy theo thiết kế của bạn */
+}
+
+/* Doc.css */
+
+/* Style cho dropdown */
+/* Doc.css */
+.custom-form-group {
+  margin: 20px auto;
+  width: 30%;
+}
+
+.custom-select-control {
+  cursor: pointer;
+}
+
+#classSelect {
+  background-color: #0069ff0f;
+}
+
+.Chooseclass {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .doc-item {
+    flex: 0 0 50%; /* Hai ảnh mỗi hàng trên màn hình trung bình */
+  }
+}
+
+@media (min-width: 1024px) {
+  .doc-item {
+    flex: 0 0 33.33%; /* Ba ảnh mỗi hàng trên màn hình lớn */
+  }
+}
+
+@media (min-width: 1200px) {
+  .doc-item {
+    flex: 0 0 25%; /* Bốn ảnh mỗi hàng trên màn hình rất lớn */
+  }
+}

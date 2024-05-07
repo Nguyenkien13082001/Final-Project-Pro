@@ -14,7 +14,7 @@
   margin-top: 100px;
   margin-left: 350px;
   margin-right: 10px;
-  height: 60vh;
+  height: 70vh;
 }
 
 .evaluater h1 {
@@ -57,17 +57,32 @@
 
 @media (max-width: 768px) {
   .evaluater {
-    width: 80%; /* Tăng chiều rộng trên màn hình nhỏ để sử dụng không gian hiệu quả hơn */
+    width: 90%; /* Tăng chiều rộng trên màn hình nhỏ để sử dụng không gian hiệu quả hơn */
     padding: 10px; /* Giảm padding để không gian hiển thị nội dung được tối đa hóa */
     margin: auto;
-    margin-right: 27px;
+    margin-left: 40px;
+    margin-top: 100px;
+    height: auto; /* Loại bỏ giới hạn chiều cao cố định để cho phép nội dung mở rộng */
+    overflow: visible; /* Đảm bảo không giới hạn nội dung hiển thị */
+    margin-bottom: 20px;
+    overflow: hidden; /* Ngăn chặn bất kỳ nội dung nào tràn ra ngoài */
+    box-sizing: border-box; /* Đảm bảo padding và border không làm tăng chiều rộng */
   }
 
   .charts {
-    flex-direction: column; /* Chuyển các biểu đồ thành hướng dọc */
+    flex-direction: column; /* Các biểu đồ xếp dọc để tránh tràn ngang */
+    align-items: center; /* Căn giữa các biểu đồ trong container */
   }
 
-  .feedback,
+  .feedback {
+    order: 3; /* Đảm bảo phần phân tích hiển thị sau cùng */
+    width: 100%; /* Đảm bảo chiều rộng phù hợp với màn hình */
+
+    background-color: #fff; /* Đảm bảo nền trắng cho đọc dễ dàng */
+    padding: 10px; /* Giảm padding để tăng không gian cho nội dung */
+    border-radius: 5px; /* Duy trì bo tròn góc cho đồng bộ */
+    box-sizing: border-box; /* Đảm bảo padding và border không làm tăng chiều rộng */
+  }
   .charts {
     width: 100%; /* Sử dụng đầy đủ chiều rộng có sẵn */
   }
@@ -77,7 +92,9 @@
   .feedback p {
     font-size: 14px;
   }
-
+  .recharts-surface {
+    width: 100%;
+  }
   /* Điều chỉnh lại biểu đồ để phù hợp với màn hình nhỏ hơn */
   .ResponsiveContainer {
     height: 200px; /* Giảm chiều cao của biểu đồ cho màn hình nhỏ */

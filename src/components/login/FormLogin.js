@@ -4,9 +4,11 @@ import logo from "../../img/logoE.png";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../api/apiClient";
 import { toast } from "react-toastify";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
+import { Modal, Button, Form } from "react-bootstrap";
+
 function FormLogin() {
   const [activeTab, setActiveTab] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -17,12 +19,39 @@ function FormLogin() {
     password: "",
     confirmPassword: "",
   });
+  const [show, setShow] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleClose = () => {
+    setEmail("");
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [errorMessage, setErrorMessage] = useState("");
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await apiClient.post("/reset_password", {
+        email: email,
+      });
+      if (response) {
+        toast.success(response.message);
+        handleClose();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -190,14 +219,41 @@ function FormLogin() {
           </p>
         )}
         {activeTab === "login" && (
-          <p>
-            <span
-              className="tab-link"
-              onClick={() => handleTabChange("forgot")}
-            >
+          <>
+            <span className="tab-link" onClick={handleShow}>
               Forgot Password?
             </span>
-          </p>
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Forgot Password</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group>
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter email"
+                      value={email}
+                      onChange={handleEmailChange}
+                    />
+                    <Form.Text className="text-muted">
+                      We'll send you a link to reset your password.
+                    </Form.Text>
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
+                  Send Email
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </>
         )}
       </div>
 

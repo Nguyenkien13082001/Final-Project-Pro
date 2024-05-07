@@ -22,6 +22,7 @@ import EvaluatePage from "./Page/EvaluatePage";
 import PracticeResultsPage from "./Page/PracticeResultsPage";
 import GetPremiumPage from "./Page/GetPremiumPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ResetPassword from "./components/login/ResetPassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -47,6 +48,7 @@ root.render(
       <Route path="learning-process" element={<LearningProcessPage />} />
       <Route path="/evaluate" element={<EvaluatePage />} />
       <Route path="/get-premium" element={<GetPremiumPage />} />
+      <Route path="/ResetPassword" element={<ResetPassword />} />
     </Routes>
     <ToastContainer />
   </BrowserRouter>

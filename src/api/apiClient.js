@@ -1,7 +1,7 @@
 import qs from "querystring";
 import axios from "axios";
 
-const baseURLApp = "https://apiedusmart.pythonanywhere.com/";
+const baseURLApp = "http://192.168.1.167:5000/";
 
 const apiClient = axios.create({
   baseURL: baseURLApp,

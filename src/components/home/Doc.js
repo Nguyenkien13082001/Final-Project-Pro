@@ -99,7 +99,12 @@ export default function Doc() {
               />
               <hr />
               <Card.Body style={{ paddingTop: 0 }}>
-                <Card.Title style={{ fontSize: "15px" }} title={doc.name}>
+                <Card.Text style={{ fontSize: "14px" }} title={doc.created_at}>
+                  Created At: {""}
+                  {doc.created_at}
+                </Card.Text>
+                <Card.Title style={{ fontSize: "16px" }} title={doc.name}>
+                  Name: {""}
                   {doc.name}
                 </Card.Title>
 

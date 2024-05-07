@@ -84,7 +84,7 @@ button {
 @media (max-width: 768px) {
   .form-container {
     width: 80%;
-    height: 50vh;
+    height: auto;
     padding: 10px;
   }
 

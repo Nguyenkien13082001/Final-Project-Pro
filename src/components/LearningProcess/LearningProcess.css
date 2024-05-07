@@ -73,7 +73,7 @@ p {
 @media (max-width: 768px) {
   .table {
     width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng có sẵn */
-    font-size: 12px; /* Giảm kích thước font để phù hợp với màn hình nhỏ */
+    font-size: 10px; /* Giảm kích thước font để phù hợp với màn hình nhỏ */
     margin-left: 20px;
   }
   .Learning {

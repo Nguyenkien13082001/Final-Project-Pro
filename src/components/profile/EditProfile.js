@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import apiClient from "../../api/apiClient";
 import { toast } from "react-toastify";
 import { Toast } from "react-bootstrap";
+import "./InforAcount.css";
 
 export default function EditProfile({ user, onUpdateUser }) {
   const [show, setShow] = useState(false);
@@ -153,7 +154,11 @@ export default function EditProfile({ user, onUpdateUser }) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            style={{ width: "auto" }}
+            variant="secondary"
+            onClick={handleClose}
+          >
             Close
           </Button>
           <Button

@@ -57,16 +57,12 @@
 
 @media (max-width: 768px) {
   .evaluater {
-    width: 90%; /* Tăng chiều rộng trên màn hình nhỏ để sử dụng không gian hiệu quả hơn */
-    padding: 10px; /* Giảm padding để không gian hiển thị nội dung được tối đa hóa */
-    margin: auto;
-    margin-left: 40px;
+    width: 96vw; /* Tăng chiều rộng trên màn hình nhỏ để sử dụng không gian hiệu quả hơn */
+
+    margin-left: 15px;
     margin-top: 100px;
     height: auto; /* Loại bỏ giới hạn chiều cao cố định để cho phép nội dung mở rộng */
     overflow: visible; /* Đảm bảo không giới hạn nội dung hiển thị */
-    margin-bottom: 20px;
-    overflow: hidden; /* Ngăn chặn bất kỳ nội dung nào tràn ra ngoài */
-    box-sizing: border-box; /* Đảm bảo padding và border không làm tăng chiều rộng */
   }
 
   .charts {
@@ -75,9 +71,8 @@
   }
 
   .feedback {
-    order: 3; /* Đảm bảo phần phân tích hiển thị sau cùng */
-    width: 100%; /* Đảm bảo chiều rộng phù hợp với màn hình */
-
+    width: 90%; /* Đảm bảo chiều rộng phù hợp với màn hình */
+    margin-left: auto;
     background-color: #fff; /* Đảm bảo nền trắng cho đọc dễ dàng */
     padding: 10px; /* Giảm padding để tăng không gian cho nội dung */
     border-radius: 5px; /* Duy trì bo tròn góc cho đồng bộ */

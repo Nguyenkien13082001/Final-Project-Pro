@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f4f7f6;
+  background-color: #f4f7f7;
   font-family: "Arial", sans-serif;
 }
 
@@ -15,7 +15,7 @@
 .premium-card {
   width: 90%;
   max-width: 600px;
-  background-color: #ffffff;
+  background-color: #def6fa81;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   padding: 30px;
@@ -45,31 +45,48 @@
 .premium-card li:last-child {
   border-bottom: none;
 }
-
-/* QR Code */
-.qr-code-img {
-  margin-top: 20px;
-  width: 160px;
-  height: 160px;
+.btnpremium {
+  margin-top: 10px;
 }
 
-/* Button */
-.btnPremium {
-  display: block;
-  width: 80%;
-  max-width: 300px;
-  margin: 20px auto;
-  padding: 12px 0;
-  background-color: #007bff;
-  color: #ffffff;
-  text-align: center;
-  font-size: 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.2s;
+.H1Premium {
+  background-color: #a3cfbb;
+  padding: 10px;
+  border: 1px solid #8fe6be;
+  border-radius: 10px;
+  margin-left: 20px;
 }
 
-.btn:hover {
-  background-color: #0056b3;
+@media (max-width: 768px) {
+  .premium-card {
+    width: 90%; /* More width on smaller screens */
+    margin-left: 30px;
+    margin-right: 0;
+  }
+
+  .premium-card h1,
+  .premium-card li {
+    font-size: 20px; /* Larger text for better readability */
+  }
+
+  .btnpremium button {
+    font-size: 18px; /* Larger font size for the button */
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-card {
+    width: 90%; /* Full width on very small screens */
+    border-radius: 0; /* Optional: remove border radius on small screens */
+    margin-left: 30px;
+    margin-right: 0;
+  }
+
+  .premium-card h1 {
+    font-size: 18px; /* Adjust header size for very small screens */
+  }
+
+  .premium-card li {
+    font-size: 15px; /* Smaller font size for list items */
+  }
 }

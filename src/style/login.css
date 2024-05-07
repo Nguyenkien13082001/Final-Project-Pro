@@ -80,3 +80,27 @@ button {
   top: 50%;
   transform: translateY(-50%);
 }
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 80%;
+    height: 50vh;
+    padding: 10px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .image-login {
+    display: none;
+  }
+  input,
+  button {
+    width: 100%;
+  }
+
+  .btnloginnn {
+    width: 100%;
+  }
+}

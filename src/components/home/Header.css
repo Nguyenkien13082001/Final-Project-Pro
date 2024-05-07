@@ -116,4 +116,7 @@
     position: static; /* Cho phép menu mở rộng theo chiều rộng của nội dung bên trong */
     width: 100%; /* Chiếm đầy đủ chiều rộng có sẵn */
   }
+  #dropdown-basic {
+    width: 50px;
+  }
 }

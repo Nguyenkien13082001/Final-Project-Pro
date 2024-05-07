@@ -202,6 +202,7 @@ function FormLogin() {
       </div>
 
       <img
+        className="image-login"
         style={{ width: "400px", height: "600px" }}
         src="https://i.pinimg.com/originals/1b/c8/53/1bc853096d57c63b2055fc0bbf30dd30.jpg"
         alt=""

@@ -42,7 +42,10 @@ export default function Header() {
           <Link to="/">
             <img src={logo} alt="logo EduSmart" className="logo" />
           </Link>
-          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Toggle
+            aria-controls="navbarScroll"
+            style={{ width: "auto" }}
+          />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-lg-0" navbarScroll>
               <Link to="/" className="nav-link-custom">

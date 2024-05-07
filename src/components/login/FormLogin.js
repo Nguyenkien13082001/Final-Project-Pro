@@ -58,6 +58,7 @@ function FormLogin() {
       navigate("/");
     }
   }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -89,6 +90,7 @@ function FormLogin() {
       toast.error(error.response.data.message);
     }
   };
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     if (formData.confirmPassword !== formData.password) {
@@ -188,10 +190,10 @@ function FormLogin() {
             <input
               style={{ marginTop: "10px" }}
               type={showPassword ? "text" : "password"}
-              name="password"
+              name="confirmPassword"
               id="password"
               placeholder="Password"
-              value={formData.password}
+              value={formData.confirmPassword}
               onChange={handleChange}
               required
             />

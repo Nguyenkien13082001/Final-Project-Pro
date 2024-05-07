@@ -104,7 +104,6 @@ export default function Doc() {
                   {doc.created_at}
                 </Card.Text>
                 <Card.Title style={{ fontSize: "16px" }} title={doc.name}>
-                  Name: {""}
                   {doc.name}
                 </Card.Title>
 

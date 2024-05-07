@@ -79,6 +79,7 @@ function FormLogin() {
         setIsLoggedIn(true);
         navigate("/");
         console.log("Login successful!");
+        toast.success("Login successful!");
       } else {
         // Xử lý logic khi đăng nhập không thành công
         toast.error("Email or Password incorect!");

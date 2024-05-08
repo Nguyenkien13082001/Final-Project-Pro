@@ -2,11 +2,23 @@ import React, { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
 import EditProfile from "./EditProfile";
 import "./InforAcount.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function InforAcount(props) {
   // Thông tin tài khoản người dùng (có thể đặt từ props hoặc state)
   // const { Username, Email, DoB, Status } = props.user;
   const [Listinfo, setListinfo] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (
+      localStorage.getItem("role") !== "USER" &&
+      localStorage.getItem("role") !== "VIP"
+    ) {
+      toast.error("You must be login to access this page!");
+      navigate("/login");
+    }
+  }, []);
   useEffect(() => {
     getInfo();
   }, []);

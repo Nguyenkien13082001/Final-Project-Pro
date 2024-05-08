@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { Link, useNavigate } from "react-router-dom";
 import { set } from "date-fns";
+import { toast } from "react-toastify";
 
 const ExamInterfaceOne = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -22,6 +23,7 @@ const ExamInterfaceOne = () => {
   const [answers, setAnswers] = useState([]);
   const [color, setColor] = useState("");
   const navigate = useNavigate();
+  const [allow, setAllow] = useState(false);
   // Hàm nhảy đến câu hỏi cụ thể trong danh sách câu hỏi của bài kiểm tra.
   const jumpToQuestion = (index) => {
     setCurrentQuestionIndex(index); // Cập nhật chỉ số câu hỏi hiện tại
@@ -49,6 +51,17 @@ const ExamInterfaceOne = () => {
     }
   };
 
+  useEffect(() => {
+    if (
+      localStorage.getItem("role") !== "USER" &&
+      localStorage.getItem("role") !== "VIP"
+    ) {
+      toast.error("You must be login to access this page!");
+      navigate("/login");
+    } else {
+      setAllow(true);
+    }
+  }, []);
   // useEffect để gọi hàm xử lý kiểu bài kiểm tra khi exam_id thay đổi
   useEffect(() => {
     const exam_type = async () => {
@@ -215,183 +228,199 @@ const ExamInterfaceOne = () => {
   };
 
   return (
-    <MathJaxContext config={config}>
-      <div className="exam-interface-container">
-        <div key={currentQuestionIndex} className="exam-interface">
-          <div className="timer">Time: {formatTime(timer)}</div>
-          <MathJax dynamic>
-            <div className="navigation">
-              <button onClick={handleExit} className="submit-exam">
-                Exit
-              </button>
+    <>
+      {" "}
+      {allow ? (
+        <MathJaxContext config={config}>
+          <div className="exam-interface-container">
+            <div key={currentQuestionIndex} className="exam-interface">
+              <div className="timer">Time: {formatTime(timer)}</div>
+              <MathJax dynamic>
+                <div className="navigation">
+                  <button onClick={handleExit} className="submit-exam">
+                    Exit
+                  </button>
 
-              <button
-                className="btnthi"
-                onClick={handlePrevQuestion}
-                disabled={currentQuestionIndex === 0}
-              >
-                Previous Question
-              </button>
+                  <button
+                    className="btnthi"
+                    onClick={handlePrevQuestion}
+                    disabled={currentQuestionIndex === 0}
+                  >
+                    Previous Question
+                  </button>
 
-              <button
-                className="btnthi"
-                onClick={handleNextQuestion}
-                disabled={currentQuestionIndex === questions.length - 1}
-              >
-                Next Question
-              </button>
+                  <button
+                    className="btnthi"
+                    onClick={handleNextQuestion}
+                    disabled={currentQuestionIndex === questions.length - 1}
+                  >
+                    Next Question
+                  </button>
 
-              <button className="btnthi" onClick={togglePause}>
-                {isRunning ? "Pause" : "Resume"}
-              </button>
-              <button onClick={handleSubmitExam} className="submit-exam">
-                Submit
-              </button>
-            </div>
-            <div className="question-progress">
-              Question {currentQuestionIndex + 1} / {questions.length}
-            </div>
+                  <button className="btnthi" onClick={togglePause}>
+                    {isRunning ? "Pause" : "Resume"}
+                  </button>
+                  <button onClick={handleSubmitExam} className="submit-exam">
+                    Submit
+                  </button>
+                </div>
+                <div className="question-progress">
+                  Question {currentQuestionIndex + 1} / {questions.length}
+                </div>
 
-            <div className="question">
-              {questions.length > 0 && questions[currentQuestionIndex] ? (
-                <>
-                  <h3>{questions[currentQuestionIndex].question}</h3>
-
-                  {exam_type === "P" ? (
-                    <ul>
-                      {Object.keys(
-                        questions[currentQuestionIndex].answers[0]
-                      ).map((key, index) => {
-                        const answer =
-                          questions[currentQuestionIndex].answers[0][key];
-                        return (
-                          <React.Fragment key={key}>
-                            <li
-                              style={{
-                                backgroundColor: "#f3f3f3",
-                                border:
-                                  answers[currentQuestionIndex] === answer
-                                    ? correctAnswers[currentQuestionIndex] ===
-                                      answer
-                                      ? "2px solid green"
-                                      : "2px solid red"
-                                    : correctAnswers[currentQuestionIndex] ===
-                                      answer
-                                    ? "2px solid green"
-                                    : "none",
-                              }}
-                              onClick={() => {
-                                if (!isselected[currentQuestionIndex]) {
-                                  // Check and resume timer if paused
-                                  if (!isRunning) {
-                                    setIsRunning(true);
-                                  }
-                                  checkAnswer(
-                                    questions[currentQuestionIndex].question_id,
-                                    currentQuestionIndex
-                                  );
-                                  setAnswers((prev) => {
-                                    const newAnswers = [...prev];
-                                    newAnswers[currentQuestionIndex] = answer;
-                                    return newAnswers;
-                                  });
-                                }
-                              }}
-                            >
-                              <span className="option-letter">
-                                {String.fromCharCode(65 + index)}.{" "}
-                              </span>
-                              {answer}
-                            </li>
-                          </React.Fragment>
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    <ul>
-                      {Object.keys(
-                        questions[currentQuestionIndex].answers[0]
-                      ).map((key, index) => {
-                        const answer =
-                          questions[currentQuestionIndex].answers[0][key];
-                        return (
-                          <React.Fragment key={key}>
-                            <li
-                              style={{
-                                backgroundColor: "#f3f3f3",
-                                border:
-                                  answers[currentQuestionIndex] === answer
-                                    ? "2px solid green"
-                                    : "none",
-                              }}
-                              onClick={() => {
-                                if (!isRunning) {
-                                  setIsRunning(true);
-                                }
-                                setAnswers((prev) => {
-                                  const newAnswers = [...prev];
-                                  newAnswers[currentQuestionIndex] = answer;
-                                  return newAnswers;
-                                });
-                              }}
-                            >
-                              <span className="option-letter">
-                                {String.fromCharCode(65 + index)}.{" "}
-                              </span>
-                              {answer}
-                            </li>
-                          </React.Fragment>
-                        );
-                      })}
-                    </ul>
-                  )}
-
-                  {exam_type === "P" ? (
+                <div className="question">
+                  {questions.length > 0 && questions[currentQuestionIndex] ? (
                     <>
-                      <button
-                        style={{ width: "auto" }}
-                        onClick={toggleExplanation}
-                      >
-                        {showExplaination
-                          ? "Hide Explanation"
-                          : "Show explanation"}
-                      </button>
-                      {showExplaination && (
-                        <p>{questions[currentQuestionIndex].explaination}</p>
+                      <h3>{questions[currentQuestionIndex].question}</h3>
+
+                      {exam_type === "P" ? (
+                        <ul>
+                          {Object.keys(
+                            questions[currentQuestionIndex].answers[0]
+                          ).map((key, index) => {
+                            const answer =
+                              questions[currentQuestionIndex].answers[0][key];
+                            return (
+                              <React.Fragment key={key}>
+                                <li
+                                  style={{
+                                    backgroundColor: "#f3f3f3",
+                                    border:
+                                      answers[currentQuestionIndex] === answer
+                                        ? correctAnswers[
+                                            currentQuestionIndex
+                                          ] === answer
+                                          ? "2px solid green"
+                                          : "2px solid red"
+                                        : correctAnswers[
+                                            currentQuestionIndex
+                                          ] === answer
+                                        ? "2px solid green"
+                                        : "none",
+                                  }}
+                                  onClick={() => {
+                                    if (!isselected[currentQuestionIndex]) {
+                                      // Check and resume timer if paused
+                                      if (!isRunning) {
+                                        setIsRunning(true);
+                                      }
+                                      checkAnswer(
+                                        questions[currentQuestionIndex]
+                                          .question_id,
+                                        currentQuestionIndex
+                                      );
+                                      setAnswers((prev) => {
+                                        const newAnswers = [...prev];
+                                        newAnswers[currentQuestionIndex] =
+                                          answer;
+                                        return newAnswers;
+                                      });
+                                    }
+                                  }}
+                                >
+                                  <span className="option-letter">
+                                    {String.fromCharCode(65 + index)}.{" "}
+                                  </span>
+                                  {answer}
+                                </li>
+                              </React.Fragment>
+                            );
+                          })}
+                        </ul>
+                      ) : (
+                        <ul>
+                          {Object.keys(
+                            questions[currentQuestionIndex].answers[0]
+                          ).map((key, index) => {
+                            const answer =
+                              questions[currentQuestionIndex].answers[0][key];
+                            return (
+                              <React.Fragment key={key}>
+                                <li
+                                  style={{
+                                    backgroundColor: "#f3f3f3",
+                                    border:
+                                      answers[currentQuestionIndex] === answer
+                                        ? "2px solid green"
+                                        : "none",
+                                  }}
+                                  onClick={() => {
+                                    if (!isRunning) {
+                                      setIsRunning(true);
+                                    }
+                                    setAnswers((prev) => {
+                                      const newAnswers = [...prev];
+                                      newAnswers[currentQuestionIndex] = answer;
+                                      return newAnswers;
+                                    });
+                                  }}
+                                >
+                                  <span className="option-letter">
+                                    {String.fromCharCode(65 + index)}.{" "}
+                                  </span>
+                                  {answer}
+                                </li>
+                              </React.Fragment>
+                            );
+                          })}
+                        </ul>
+                      )}
+
+                      {exam_type === "P" ? (
+                        <>
+                          <button
+                            style={{ width: "auto" }}
+                            onClick={toggleExplanation}
+                          >
+                            {showExplaination
+                              ? "Hide Explanation"
+                              : "Show explanation"}
+                          </button>
+                          {showExplaination && (
+                            <p>
+                              {questions[currentQuestionIndex].explaination}
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        <></>
                       )}
                     </>
                   ) : (
-                    <></>
+                    <p>No Question</p>
                   )}
-                </>
-              ) : (
-                <p>No Question</p>
-              )}
+                </div>
+              </MathJax>
             </div>
-          </MathJax>
-        </div>
-        <div>
-          <div>
-            <h3>List Of Questions</h3>
+            <div>
+              <div>
+                <h3>List Of Questions</h3>
+              </div>
+              <div className="question-list">
+                {/* Danh sách câu hỏi */}
+                {Array.from({ length: questions.length }, (_, i) => (
+                  <button
+                    key={i}
+                    style={answers[i] ? { backgroundColor: "#4caf50" } : {}}
+                    className={`question-list-item ${
+                      currentQuestionIndex === i ? "active" : ""
+                    }`}
+                    onClick={() => jumpToQuestion(i)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="question-list">
-            {/* Danh sách câu hỏi */}
-            {Array.from({ length: questions.length }, (_, i) => (
-              <button
-                key={i}
-                style={answers[i] ? { backgroundColor: "#4caf50" } : {}}
-                className={`question-list-item ${
-                  currentQuestionIndex === i ? "active" : ""
-                }`}
-                onClick={() => jumpToQuestion(i)}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </MathJaxContext>
+        </MathJaxContext>
+      ) : (
+        <>
+          {" "}
+          <h1>Not Allowed</h1>{" "}
+        </>
+      )}
+    </>
   );
 };
 

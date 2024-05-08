@@ -277,7 +277,7 @@ export default function ClassQuestion() {
         // Nếu số câu hỏi trả về ít hơn số lượng yêu cầu
         if (
           window.confirm(
-            `Chỉ có ${response.questions_count} câu hỏi có sẵn. Bạn có muốn tiếp tục không?`
+            `Only ${response.questions_count} Questions are available. Do you want to continue?`
           )
         ) {
           toast.success("Create exam successful!");

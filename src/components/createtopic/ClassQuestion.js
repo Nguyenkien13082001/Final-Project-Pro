@@ -24,42 +24,50 @@ export default function ClassQuestion() {
   const [expanded, setExpanded] = useState({});
   const [selectAllChapters, setSelectAllChapters] = useState(false);
 
+  // Hàm này đảo trạng thái mở/rộng của một chapter dựa trên ID của nó.
   const toggleExpanded = (chapterId) => {
     setExpanded((prev) => ({
-      ...prev,
-      [chapterId]: !prev[chapterId],
+      ...prev, // Sao chép trạng thái trước đó
+      [chapterId]: !prev[chapterId], // Đảo trạng thái của chapter cụ thể
     }));
   };
 
+  // useEffect được sử dụng để gọi hàm getClass khi component được render lần đầu tiên.
   useEffect(() => {
-    getClass();
-  }, []);
+    getClass(); // Gọi hàm lấy thông tin lớp học
+  }, []); // Mảng rỗng đảm bảo rằng effect chỉ chạy một lần sau khi component mount
+
+  // Hàm bất đồng bộ để lấy danh sách lớp học từ server.
   const getClass = async () => {
     try {
-      const response = await apiClient.get("api/get_class_admin");
-      setListClass(response.classes);
-      console.log("List class:", response.classes);
-    } catch (error) {}
+      const response = await apiClient.get("api/get_class_admin"); // Gửi yêu cầu GET đến server
+      setListClass(response.classes); // Cập nhật trạng thái với danh sách lớp học nhận được
+      console.log("List class:", response.classes); // Log danh sách lớp học
+    } catch (error) {
+      // Nếu có lỗi xảy ra, block này sẽ được thực thi
+    }
   };
+
+  // Hàm bất đồng bộ để lấy thông tin chương của một lớp học cụ thể.
   const getChapter = async (classId) => {
     try {
       const chapterResponse = await apiClient.get(
-        `api/get_chapter_admin?class_id=${classId}`
+        `api/get_chapter_admin?class_id=${classId}` // Gửi yêu cầu GET với classId để lấy chương
       );
-      setListChapter(chapterResponse.chapters);
+      setListChapter(chapterResponse.chapters); // Cập nhật trạng thái với danh sách chương
       const newExpanded = chapterResponse.chapters.reduce((acc, chapter) => {
-        acc[chapter.id] = false; // Mặc định đóng
+        acc[chapter.id] = false; // Khởi tạo mỗi chương với trạng thái là đóng
         return acc;
       }, {});
-      setExpanded(newExpanded);
+      setExpanded(newExpanded); // Cập nhật trạng thái mở/rộng cho các chương
 
-      // Load topic cho mỗi chapter
+      // Duyệt qua từng chương và gọi hàm getTopic để lấy các chủ đề
       chapterResponse.chapters.forEach((chapter) => {
         getTopic(chapter.id);
       });
     } catch (error) {
-      console.error("Error fetching chapters:", error);
-      toast.error("Failed to load chapters");
+      console.error("Error fetching chapters:", error); // Log lỗi nếu có
+      toast.error("Failed to load chapters"); // Hiển thị thông báo lỗi
     }
   };
 
@@ -128,40 +136,43 @@ export default function ClassQuestion() {
     });
   };
 
+  // Hàm này xử lý thay đổi trạng thái chọn (check/uncheck) của một chapter.
   const handleChapterChange = async (chapterId, event) => {
-    const isChecked = event.target.checked;
+    const isChecked = event.target.checked; // Lấy trạng thái checked từ event
 
     if (isChecked) {
-      // Chọn tất cả các topic trong chapter này
-      await getTopic(chapterId); // Đảm bảo rằng các topic được lấy và cập nhật trước khi đánh dấu chọn
+      // Nếu chapter được chọn:
+      await getTopic(chapterId); // Lấy tất cả các topic trong chapter này trước khi thực hiện các thay đổi khác
       const chapterTopics =
-        listTopic.find((t) => t[chapterId])?.[chapterId] || [];
+        listTopic.find((t) => t[chapterId])?.[chapterId] || []; // Tìm kiếm các topic liên quan đến chapter này
       setSelectedTopic((prev) => {
-        const newSelectedTopics = new Set(prev);
+        // Cập nhật danh sách các topic đã chọn
+        const newSelectedTopics = new Set(prev); // Tạo một bản sao của danh sách hiện tại để thay đổi
         chapterTopics.forEach((topic) =>
           newSelectedTopics.add(topic.id.toString())
-        );
-        return Array.from(newSelectedTopics);
+        ); // Thêm tất cả các topic của chapter này vào danh sách đã chọn
+        return Array.from(newSelectedTopics); // Trả về danh sách mới
       });
-      setSelectedChapters((prev) => [...prev, chapterId]);
+      setSelectedChapters((prev) => [...prev, chapterId]); // Thêm chapter này vào danh sách các chapter đã chọn
       setIndeterminateChapters((prev) => {
+        // Cập nhật danh sách các chapter không xác định
         const newIndeterminate = new Set(prev);
-        newIndeterminate.delete(chapterId);
+        newIndeterminate.delete(chapterId); // Xóa chapter này khỏi danh sách không xác định (nếu có)
         return newIndeterminate;
       });
     } else {
-      // Bỏ chọn tất cả các topic trong chapter này
+      // Nếu chapter bị bỏ chọn:
       const chapterTopics =
-        listTopic.find((t) => t[chapterId])?.[chapterId] || [];
+        listTopic.find((t) => t[chapterId])?.[chapterId] || []; // Tìm kiếm các topic liên quan đến chapter này
       setSelectedTopic((prev) =>
         prev.filter(
-          (id) => !chapterTopics.some((topic) => topic.id.toString() === id)
+          (id) => !chapterTopics.some((topic) => topic.id.toString() === id) // Loại bỏ các topic của chapter này khỏi danh sách đã chọn
         )
       );
-      setSelectedChapters((prev) => prev.filter((id) => id !== chapterId));
+      setSelectedChapters((prev) => prev.filter((id) => id !== chapterId)); // Loại bỏ chapter này khỏi danh sách các chapter đã chọn
       setIndeterminateChapters((prev) => {
         const newIndeterminate = new Set(prev);
-        newIndeterminate.delete(chapterId);
+        newIndeterminate.delete(chapterId); // Xóa chapter này khỏi danh sách không xác định (nếu có)
         return newIndeterminate;
       });
     }
@@ -351,19 +362,19 @@ export default function ClassQuestion() {
           </div>
 
           <div className="button-container">
-            {listChapter.length > 0 &&
-              chooseClass && ( // Kiểm tra cả hai điều kiện
-                <button
-                  type="button"
-                  className="select-deselect-all-btn"
-                  onClick={handleSelectAllChapters}
-                >
-                  {selectAllChapters
-                    ? "Deselect All Chapters"
-                    : "Select All Chapters"}
-                </button>
-              )}
-            {/* Các nút và thành phần khác */}
+            {/* Kiểm tra điều kiện để hiển thị nút: nếu có ít nhất một chapter và một lớp học đã được chọn */}
+            {listChapter.length > 0 && chooseClass && (
+              <button
+                type="button"
+                className="select-deselect-all-btn"
+                onClick={handleSelectAllChapters} // Gán hàm xử lý sự kiện khi nút được nhấn
+              >
+                {/* Hiển thị văn bản trên nút tùy thuộc vào trạng thái hiện tại của việc chọn tất cả các chapter */}
+                {selectAllChapters
+                  ? "Deselect All Chapters"
+                  : "Select All Chapters"}
+              </button>
+            )}
           </div>
         </div>
         <div>

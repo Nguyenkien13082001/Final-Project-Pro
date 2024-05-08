@@ -164,7 +164,7 @@ const ExamInterfaceOne = () => {
     if (!allAnswered) {
       // Hiển thị thông báo xác nhận nếu chưa trả lời hết các câu hỏi
       const confirmSubmit = window.confirm(
-        "Bạn chưa hoàn thành tất cả các câu hỏi. Bạn có chắc chắn muốn nộp bài không?"
+        "You have not completed all the questions. Are you sure you want to submit your assignment?"
       );
       if (!confirmSubmit) {
         return; // Nếu người dùng chọn không, hủy việc nộp bài
@@ -172,7 +172,7 @@ const ExamInterfaceOne = () => {
     } else {
       // Hiển thị thông báo xác nhận khác nếu đã trả lời hết các câu hỏi
       const confirmSubmit = window.confirm(
-        "Bạn có chắc chắn muốn nộp bài không?"
+        "Are you sure you want to submit your assignment?"
       );
       if (!confirmSubmit) {
         return; // Nếu người dùng chọn không, hủy việc nộp bài

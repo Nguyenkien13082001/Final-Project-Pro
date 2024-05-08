@@ -94,7 +94,7 @@ function FormLogin() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     if (formData.confirmPassword !== formData.password) {
-      toast.error("mat khau k trung");
+      toast.error("password does not match");
     } else if (new Date(formData.dob) > new Date()) {
       toast.error("Date of birth cannot be in the future");
     } else {
@@ -153,7 +153,6 @@ function FormLogin() {
               value={
                 formData.dob ? format(new Date(formData.dob), "yyyy-MM-dd") : ""
               }
-              max={new Date().toISOString().split("T")[0]}
               onChange={handleChange}
               required
             />

@@ -99,6 +99,7 @@ const Evaluater = () => {
 
   return (
     <div className="evaluater">
+      <h2>Evaluate</h2>
       {/* Hiển thị các biểu đồ nếu có dữ liệu */}
       {studentData ? (
         <div className="charts">

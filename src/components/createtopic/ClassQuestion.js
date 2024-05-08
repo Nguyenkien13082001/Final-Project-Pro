@@ -270,7 +270,6 @@ export default function ClassQuestion() {
         console.log("Exam questions:", response);
         // console.log get link will direct to TopicInterface
         console.log(`TopicInterface/${response.exam_id}`);
-
         navigate(`/creattopic/TopicInterface/${response.exam_id}`, {
           replace: true,
         });
@@ -294,7 +293,7 @@ export default function ClassQuestion() {
         toast.error("Error creating exam: Invalid response format");
       }
     } catch (error) {
-      console.error("Error creating exam:", error);
+      console.error("Error creating exam:", error.response?.data?.message);
       toast.error(error.response?.data?.message || "Error creating exam");
     }
   };

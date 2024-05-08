@@ -7,6 +7,7 @@ import "./Header.css"; // Đảm bảo đường dẫn đúng đến file CSS c�
 import { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Header() {
   const [classes, setClasses] = useState([]);
@@ -28,11 +29,16 @@ export default function Header() {
   }, []);
 
   const handleClicked = async (class_id) => {
-    const response = await apiClient.post(`/api/gen_question`, {
-      class_ids: [class_id],
-      exam_type: "M",
-    });
-    navigate(`/creattopic/TopicInterface/${response.exam_id}`);
+    try {
+      const response = await apiClient.post(`/api/gen_question`, {
+        class_ids: [class_id],
+        exam_type: "M",
+      });
+      navigate(`/creattopic/TopicInterface/${response.exam_id}`);
+    } catch (error) {
+      console.error("Error creating exam:", error.response.data.message);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (

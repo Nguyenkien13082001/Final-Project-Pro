@@ -1,7 +1,7 @@
 /* src/components/home/Doc.css */
 .doc-container {
   margin: auto;
-  width: 90%; /* Chiếm toàn bộ chiều rộng của container cha */
+  width: 100%; /* Chiếm toàn bộ chiều rộng của container cha */
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap; /* Cho phép các items chuyển xuống dòng khi không đủ không gian */

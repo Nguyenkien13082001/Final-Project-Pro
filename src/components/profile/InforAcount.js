@@ -33,7 +33,7 @@ function InforAcount(props) {
     getInfo();
   };
   return (
-    <div style={{ marginTop: "120px" }}>
+    <div style={{ marginTop: "130px", marginBottom: "30px" }}>
       <div className="user-profile">
         <img
           style={{ height: "100px", width: "100px" }}

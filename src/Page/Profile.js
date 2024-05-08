@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export default function Profile() {
   return (
     <LayoutHome>
-      <div style={{ height: "80vh" }}>
+      <div>
         <NavbarProfile></NavbarProfile>
         <InforAcount />
       </div>

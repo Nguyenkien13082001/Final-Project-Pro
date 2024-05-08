@@ -48,6 +48,7 @@ const ExamInterfaceOne = () => {
       console.log("abs<>", response); // Ghi nhận phản hồi từ server
     } catch (error) {
       console.log(error); // Ghi nhận lỗi nếu có
+      toast.error(error.response.data.message); // Thông báo lỗi cho người dùng
     }
   };
 
